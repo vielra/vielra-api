@@ -232,4 +232,14 @@ return [
 
     ],
 
+
+    /*
+    |-----------------------------
+    | App Icons
+    |------------------------------
+    |
+    */
+    'app_icon_types'        => ['material-icons', 'material-community-icons', 'ionicons'],
+    'default_app_icon_type' => 'material-icons',
+
 ];
