@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Models\SocialAccount;
 use Illuminate\Support\Facades\Password;
 
 class AuthService
@@ -100,6 +101,41 @@ class AuthService
       return $user;
     } else {
       return;
+    }
+  }
+
+  /**
+   * Login with social account.
+   * 
+   * @param array $data;
+   * @param string "google" | "facebook";
+   * @return \Illuminate\Http\Response
+   */
+  public function loginWithSocialAccount(array $data, string $provider)
+  {
+    if ($data && $provider) {
+      $user = User::where('email', $data['social_email'])->first();
+
+      // The first time user login with this account.
+      if ($user === null) {
+        /** Create new social account */
+        $socialAccount = new SocialAccount;
+
+        $socialAccount->social_provider     = $provider;
+        $socialAccount->social_id           = $data['social_id'];
+        $socialAccount->social_name         = $data['social_name'];
+        $socialAccount->social_photo_url    = $data['social_photo_url'];
+
+        $user = User::create([
+          'name'      => $data['social_name'],
+          'email'     => $data['social_email'],
+          'username'  => $data['social_id'], // That's oke, user can change username anytime.
+        ]);
+        $socialAccount->fill(['user_id' => $user->id])->save();
+      }
+      return $user->fresh();
+    } else {
+      return  null;
     }
   }
 }

@@ -10,6 +10,7 @@ use App\Http\Resources\User as ResourcesUser;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\LoginCheckUsernameRequest;
+use App\Http\Requests\Auth\LoginWithSocialAccountRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -99,6 +100,27 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'message'   => 'Opss, we can not reset your password. Maybe you already did ? Otherwise please try reset password again.'
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * Login external with social account.
+     */
+    public function socialAccount(LoginWithSocialAccountRequest $request, string $provider)
+    {
+        $data = $request->only(['social_id', 'social_name', 'social_email', 'social_photo_url']);
+        $user = $this->authService->loginWithSocialAccount($data, $provider);
+        if ($user instanceof User) {
+            $token = $user->createToken($user->email)->plainTextToken;
+            return response()->json([
+                'token' => $token,
+                'user'  => new ResourcesUser($user)
+            ], JsonResponse::HTTP_OK);
+        } else {
+            return response()->json([
+                'message'     => 'Something went wrong!',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }

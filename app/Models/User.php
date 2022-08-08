@@ -57,4 +57,20 @@ class User extends Authenticatable
     protected $attributes = [
         'status'    => "active",
     ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['socialAccount'];
+
+    /**
+     * Relationship between User and SocialAccount
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function socialAccount()
+    {
+        return $this->hasOne(SocialAccount::class);
+    }
 }
