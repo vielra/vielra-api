@@ -14,6 +14,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\SocialAccount;
 use Illuminate\Support\Facades\Password;
+use \Laravel\Sanctum\PersonalAccessToken;
 
 class AuthService
 {
@@ -136,6 +137,23 @@ class AuthService
       return $user->fresh();
     } else {
       return  null;
+    }
+  }
+
+  /**
+   * Delete user current access token.
+   * 
+   * @return boolean
+   */
+  public function deleteCurrentAccessToken($currentAccessToken)
+  {
+    if ($currentAccessToken) {
+      // $user = User::findOrFail($userId);
+      // dd($user->currentAccessToken()->delete()); // Can't delete this token
+
+      return PersonalAccessToken::findToken($currentAccessToken)->delete();
+    } else {
+      return  false;
     }
   }
 }

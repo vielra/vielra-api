@@ -32,4 +32,5 @@ Route::prefix("/auth")->group(function () {
     Route::post('/send-reset-password-link', [AuthController::class, 'sendResetPasswordLink']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/login/{provider}', [AuthController::class, 'socialAccount']);
+    Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
 });

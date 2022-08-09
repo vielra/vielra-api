@@ -22,6 +22,7 @@ class AuthController extends Controller
 
     public function __construct(AuthService $authService)
     {
+        $this->middleware(['auth:sanctum'])->only(['revokeToken']);
         $this->authService = $authService;
     }
 
@@ -121,6 +122,24 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'message'     => 'Something went wrong!',
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Revoke token from the database
+     */
+    public function revokeToken(Request $request)
+    {
+        $request->validate(['currentAccessToken' => ['required', 'string']]);
+        $result = $this->authService->deleteCurrentAccessToken($request->currentAccessToken);
+        if ($result) {
+            return response()->json([
+                'message'   => 'Token has been delete!'
+            ], JsonResponse::HTTP_OK);
+        } else {
+            return response()->json([
+                'message'   => 'Failed to remove access token'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
