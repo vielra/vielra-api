@@ -15,13 +15,14 @@ class PhraseCategory extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'            => $this->id,
-            'name'          => json_decode($this->name),
-            'slug'          => $this->slug,
-            'color'         => $this->color,
-            'icon_name'      => $this->icon_name,
-            'icon_type'      => $this->icon_type,
-            'phrasesCount'  => $this->phrases_count,
+            'id'                => $this->id,
+            'name'              => json_decode($this->name),
+            'slug'              => $this->slug,
+            'color'             => $this->color,
+            'icon_name'         => $this->icon_name,
+            'icon_type'         => $this->icon_type,
+            'image_url'         => $this->image_url,
+            'phrases_count'     => $this->phrases_count,
         ];
     }
 }

@@ -16,6 +16,7 @@ class PhraseCategory extends Model
         'color',
         'icon_name',
         'icon_type',
+        'image_url'
     ];
 
     /**
