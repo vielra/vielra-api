@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\PhraseCategoryController;
+use App\Http\Controllers\PhraseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +35,20 @@ Route::prefix("/auth")->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/login/{provider}', [AuthController::class, 'socialAccount']);
     Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
+});
+
+
+/**
+ * -----------
+ * Phrasebook routes
+ * -----------
+ */
+Route::prefix('/phrasebook')->group(function () {
+    Route::apiResource('/category', PhraseCategoryController::class);
+    Route::apiResource('/phrase', PhraseController::class);
+});
+
+
+Route::get('/get-uuid', function () {
+    return dd(\Illuminate\Support\Str::orderedUuid()->toString());
 });

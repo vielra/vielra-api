@@ -66,8 +66,13 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $user = $this->authService->login($request);
+
         if ($user instanceof User) {
-            return new ResourcesUser($user);
+            $token = $user->createToken($user->email)->plainTextToken;
+            return response()->json([
+                'token' => $token,
+                'user'  => new ResourcesUser($user)
+            ], JsonResponse::HTTP_OK);
         } else {
             return response()->json([
                 'message'     => 'The provided credentials are incorrect.',
