@@ -14,6 +14,15 @@ class Phrase extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'                => $this->id,
+            'status_id'         => $this->status_id,
+            'order'             => $this->order,
+            'text'              => [
+                'vi'            => $this->text_vi,
+                'en'            => $this->text_en,
+                'id'            => $this->text_id,
+            ],
+        ];
     }
 }

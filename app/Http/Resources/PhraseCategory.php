@@ -22,6 +22,8 @@ class PhraseCategory extends JsonResource
             'icon_name'         => $this->icon_name,
             'icon_type'         => $this->icon_type,
             'image_url'         => $this->image_url,
+            'order'             => $this->order,
+            'is_active'         => $this->is_active,
             'phrases_count'     => $this->phrases_count,
         ];
     }

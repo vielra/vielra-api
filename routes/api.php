@@ -43,7 +43,7 @@ Route::prefix("/auth")->group(function () {
  */
 Route::prefix('/phrasebook')->group(function () {
     Route::apiResource('/category', PhraseCategoryController::class);
-    Route::apiResource('/', PhraseController::class);
+    Route::apiResource('/phrase', PhraseController::class);
 });
 
 

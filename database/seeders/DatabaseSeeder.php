@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            PhraseCategorySeeder::class
+            PhraseCategorySeeder::class,
+            PhraseStatusSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

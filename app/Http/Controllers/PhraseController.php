@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePhraseRequest;
-use App\Http\Resources\Phrase as PhraseResource;
-use App\Http\Resources\PhraseCollection;
-use App\Models\Phrase;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Services\PhrasebookService;
+use App\Http\Requests\CreatePhraseRequest;
+use App\Http\Resources\PhrasebookCollection;
+use App\Http\Resources\Phrase as PhraseResource;
+use App\Http\Resources\Phrasebook as PhrasebookResource;
 
 class PhraseController extends Controller
 {
+
+    private PhrasebookService $phrasebookService;
+
+    public function __construct(PhrasebookService $phrasebookService)
+    {
+        $this->phrasebookService = $phrasebookService;
+
+        // Middleware
+        $this->middleware(['auth:sanctum'])->only(['store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +30,17 @@ class PhraseController extends Controller
      */
     public function index(Request $request)
     {
-        $phrases = Phrase::all();
-        return new PhraseCollection($phrases);
+        $phrasebook = $this->phrasebookService->findAll($request);
+
+        if ($phrasebook) {
+            if ($request->category) {
+                return new PhrasebookResource($phrasebook);
+            }
+            return new PhrasebookCollection($phrasebook);
+        }
+        return response()->json([
+            'message'   => 'Awww.. Dont\'t cry! it\'s a just a 404 error!',
+        ], JsonResponse::HTTP_NOT_FOUND);
     }
 
     /**
@@ -30,9 +52,8 @@ class PhraseController extends Controller
     public function store(CreatePhraseRequest $request)
     {
         try {
-            $data = $request->only(['text', 'category_id']);
-            $newPhrase = Phrase::create($data);
-            return new PhraseResource($newPhrase);
+            $phrase = $this->phrasebookService->create($request);
+            return new PhraseResource($phrase);
         } catch (\Exception $e) {
             return response()->json([
                 'messages' => $e->getMessage()
@@ -48,7 +69,9 @@ class PhraseController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json([
+            'message'   => 'Awww.. Dont\'t cry! it\'s a just a 404 error!',
+        ], JsonResponse::HTTP_NOT_FOUND);
     }
 
     /**
@@ -60,7 +83,14 @@ class PhraseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $phrase = $this->phrasebookService->update($request, $id);
+            if ($phrase) return new PhraseResource($phrase);
+        } catch (\Exception $e) {
+            return response()->json([
+                'messages' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -71,6 +101,15 @@ class PhraseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $result = $this->phrasebookService->delete($id);
+            if ($result) return response()->json([
+                'message'   => 'Phrase has been delete!'
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message'   => $exception->getMessage(),
+            ]);
+        }
     }
 }

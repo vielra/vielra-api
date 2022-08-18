@@ -23,6 +23,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f09261-aceb-4b85-bb28-821d8c8a04fa',
                 'slug'      => 'uncategory',
+                'order'     => 0,
                 'name'      => json_encode([
                     "en"    => "Uncategory",
                     "id"    => "Tidak Berkategori",
@@ -32,6 +33,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0a7c2-18a1-46ff-954b-0c233d2cc85e',
                 'slug'      => 'general',
+                'order'     => 1,
                 'name'      => json_encode([
                     "en"    => "General",
                     "id"    => "Umum",
@@ -41,6 +43,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0a837-4328-4113-9895-db02b4097e42',
                 'slug'      => 'greeting',
+                'order'     => 2,
                 'name'      => json_encode([
                     "en"    => "Greeting",
                     "id"    => "Salam",
@@ -50,6 +53,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0a915-b7ec-44dc-8f7c-c7e190365981',
                 'slug'      => 'romance',
+                'order'     => 3,
                 'name'      => json_encode([
                     "en"    => "Romance",
                     "id"    => "Asmara",
@@ -59,6 +63,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0a94e-c8b7-40c9-bdff-501ffe9aac28',
                 'slug'      => 'emergency',
+                'order'     => 4,
                 'name'      => json_encode([
                     "en"    => "Emergency",
                     "id"    => "Darurat",
@@ -68,6 +73,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0a9ad-6324-406b-b823-7f6bfbcfd1d7',
                 'slug'      => 'eat',
+                'order'     => 5,
                 'name'      => json_encode([
                     "en"    => "Eat",
                     "id"    => "Makan",
@@ -77,6 +83,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0a9c6-d4e6-4553-8a41-961094bdd937',
                 'slug'      => 'shopping',
+                'order'     => 6,
                 'name'      => json_encode([
                     "en"    => "Shopping",
                     "id"    => "Belanja",
@@ -86,6 +93,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0aa09-3f33-41c6-aa0a-398a06929401',
                 'slug'      => 'number',
+                'order'     => 7,
                 'name'      => json_encode([
                     "en"    => "Numbers",
                     "id"    => "Angka",
@@ -95,6 +103,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0aa66-13b2-40ad-b809-60ed951d5aa2',
                 'slug'      => 'transportations',
+                'order'     => 8,
                 'name'      => json_encode([
                     "en"    => "Transportations",
                     "id"    => "Transportasi",
@@ -104,6 +113,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0aae8-eb3a-4138-9d83-6fb61e412b70',
                 'slug'      => 'accommodations',
+                'order'     => 9,
                 'name'      => json_encode([
                     "en"    => "Accommodations",
                     "id"    => "Akomodasi",
@@ -113,6 +123,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0ab58-deb3-4afd-8fbf-c2c533cbbccf',
                 'slug'      => 'directions',
+                'order'     => 10,
                 'name'      => json_encode([
                     "en"    => "Directions",
                     "id"    => "Petunjuk Arah",
@@ -122,6 +133,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0aba1-dc45-4914-af6e-9f6f7082b12e',
                 'slug'      => 'weather',
+                'order'     => 11,
                 'name'      => json_encode([
                     "en"    => "Weather",
                     "id"    => "Cuaca",
@@ -131,6 +143,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0abf3-1811-47f9-bff2-ee3714a36e4a',
                 'slug'      => 'driving',
+                'order'     => 12,
                 'name'      => json_encode([
                     "en"    => "Driving",
                     "id"    => "Berkendara",
@@ -140,6 +153,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0ac31-d710-48cd-80a5-25daeb27f61e',
                 'slug'      => 'places',
+                'order'     => 13,
                 'name'      => json_encode([
                     "en"    => "Places",
                     "id"    => "Tempat",
@@ -149,6 +163,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f0ac94-dfb1-418a-a42c-353c479d712a',
                 'slug'      => 'sightseeing',
+                'order'     => 14,
                 'name'      => json_encode([
                     "en"    => "Sightseeing",
                     "id"    => "Tamasya",
@@ -158,6 +173,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14ded-f214-42b4-be78-60d5f67444aa',
                 'slug'      => 'animal',
+                'order'     => 15,
                 'name'      => json_encode([
                     "en"    => "Animal",
                     "id"    => "Hewan",
@@ -167,6 +183,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14ded-f214-42b4-be78-60d5f67445ba',
                 'slug'      => 'fruits',
+                'order'     => 16,
                 'name'      => json_encode([
                     "en"    => "Fruits",
                     "id"    => "Buah-buahan",
@@ -176,6 +193,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14e31-b302-4db5-9f4c-038bad211493',
                 'slug'      => 'date-time',
+                'order'     => 17,
                 'name'      => json_encode([
                     "en"    => "Date & Time",
                     "id"    => "Tanggal & Waktu",
@@ -185,6 +203,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14e83-61b9-4047-b197-194cc8e394ff',
                 'slug'      => 'colors',
+                'order'     => 18,
                 'name'      => json_encode([
                     "en"    => "Colors",
                     "id"    => "Warna",
@@ -194,6 +213,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14eb3-e35a-4511-9824-4c6ccb499276',
                 'slug'      => 'lesson',
+                'order'     => 19,
                 'name'      => json_encode([
                     "en"    => "Lesson",
                     "id"    => "Pelajaran",
@@ -203,6 +223,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14ef1-55a5-41a7-b03d-49c301c2627a',
                 'slug'      => 'works',
+                'order'     => 20,
                 'name'      => json_encode([
                     "en"    => "Works",
                     "id"    => "Pekerjaan",
@@ -212,6 +233,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f14f9e-8370-4db8-bc14-9feb9b7e59db',
                 'slug'      => 'hobby',
+                'order'     => 21,
                 'name'      => json_encode([
                     "en"    => "Hobby",
                     "id"    => "Hobi",
@@ -221,6 +243,7 @@ class PhraseCategorySeeder extends Seeder
             array(
                 'id'        => '96f150cb-a05f-4a67-bf33-bb6c8b7c77ce',
                 'slug'      => 'others',
+                'order'     => 22,
                 'name'      => json_encode([
                     "en"    => "Others",
                     "id"    => "Lain-lain",

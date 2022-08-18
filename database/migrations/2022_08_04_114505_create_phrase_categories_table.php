@@ -21,7 +21,9 @@ class CreatePhraseCategoriesTable extends Migration
             $table->string('icon_name', 50)->nullable();
             $table->enum('icon_type', config('app.app_icon_types'))->nullable();
             $table->string('image_url')->nullable();
+            $table->unsignedInteger('order')->default(0);
             $table->boolean('is_initial')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

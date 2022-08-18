@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePhraseCategoryRequest;
-use App\Http\Resources\PhraseCategoryCollection;
-use App\Models\PhraseCategory;
 use Illuminate\Http\Request;
+use App\Models\PhraseCategory;
+use App\Http\Resources\PhraseCategoryCollection;
+use App\Http\Requests\CreatePhraseCategoryRequest;
+use App\Http\Resources\PhraseCategory as PhraseCategoryResource;
 
 class PhraseCategoryController extends Controller
 {
@@ -29,9 +30,13 @@ class PhraseCategoryController extends Controller
     public function store(CreatePhraseCategoryRequest $request)
     {
         try {
-            $data = $request->only(['name', 'slug', 'icon_name', 'icon_type', 'color']);
+            $data = $request->only([
+                'name', 'slug', 'icon_name', 'icon_type', 'color', 'order', 'is_active'
+            ]);
+            $data['name'] = json_encode($request->name);
+
             $newCategory = PhraseCategory::create($data);
-            return new PhraseCategory($newCategory);
+            return new PhraseCategoryResource($newCategory);
         } catch (\Exception $e) {
             return response()->json([
                 'messages' => $e->getMessage()
@@ -59,7 +64,20 @@ class PhraseCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $request->only([
+                'name', 'slug', 'icon_name', 'icon_type', 'color', 'order', 'is_active'
+            ]);
+            $data['name'] = json_encode($request->name);
+
+            $phraseCategory = PhraseCategory::findOrFail($id);
+            $phraseCategory->update($data);
+            return new PhraseCategoryResource($phraseCategory);
+        } catch (\Exception $e) {
+            return response()->json([
+                'messages' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -70,6 +88,16 @@ class PhraseCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $phraseCategory = PhraseCategory::findOrFail($id);
+            $phraseCategory->delete();
+            return response()->json([
+                'message'   => 'Phrase category has been delete!'
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message'   => $exception->getMessage(),
+            ]);
+        }
     }
 }
