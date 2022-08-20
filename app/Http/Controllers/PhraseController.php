@@ -36,6 +36,7 @@ class PhraseController extends Controller
             if ($request->category) {
                 return new PhrasebookResource($phrasebook);
             }
+
             return new PhrasebookCollection($phrasebook);
         }
         return response()->json([
@@ -53,7 +54,10 @@ class PhraseController extends Controller
     {
         try {
             $phrase = $this->phrasebookService->create($request);
-            return new PhraseResource($phrase);
+            return response()->json(
+                new PhraseResource($phrase),
+                JsonResponse::HTTP_CREATED
+            );
         } catch (\Exception $e) {
             return response()->json([
                 'messages' => $e->getMessage()

@@ -20,10 +20,7 @@ class PhrasebookService
     $phrasebook = null;
 
     if ($request->category) {
-      $phrasebook = PhraseCategory::active()->where('slug', $request->category)->first();
-      if ($phrasebook !== null) {
-        $phrasebook->with(['phrases']);
-      }
+      $phrasebook = PhraseCategory::active()->with(['phrases'])->where('slug', $request->category)->first();
     } else {
       $phrasebook = PhraseCategory::active()->with(['phrases'])->get();
     }
