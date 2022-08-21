@@ -65,9 +65,12 @@ class PhrasebookService
    * Delete Phrase
    * 
    */
-  public function delete($id)
+  public function delete($request)
   {
-    $phrase = Phrase::findOrFail($id);
-    return $phrase->delete();
+    if (is_array($request->all())) {
+      return Phrase::whereIn('id', $request->all())->delete();
+    } else {
+      return false;
+    }
   }
 }

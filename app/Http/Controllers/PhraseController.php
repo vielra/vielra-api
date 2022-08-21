@@ -103,10 +103,10 @@ class PhraseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         try {
-            $result = $this->phrasebookService->delete($id);
+            $result = $this->phrasebookService->delete($request);
             if ($result) return response()->json([
                 'message'   => 'Phrase has been delete!'
             ]);
