@@ -4,41 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Services\PhrasebookService;
-use App\Http\Requests\CreatePhraseRequest;
-use App\Http\Resources\PhrasebookCollection;
-use App\Http\Resources\Phrase as PhraseResource;
-use App\Http\Resources\Phrasebook as PhrasebookResource;
+use App\Services\PhraseAudioService;
+use App\Http\Requests\CreatePhraseAudioRequest;
+use App\Http\Resources\PhraseAudio as PhraseAudioResource;
 
-class PhraseController extends Controller
+class PhraseAudioController extends Controller
 {
 
-    private PhrasebookService $phrasebookService;
+    private PhraseAudioService $phraseAudioService;
 
-    public function __construct(PhrasebookService $phrasebookService)
+    public function __construct(PhraseAudioService $phraseAudioService)
     {
-        $this->phrasebookService = $phrasebookService;
+        $this->phraseAudioService = $phraseAudioService;
 
         // Middleware
         $this->middleware(['auth:sanctum'])->only(['store', 'update', 'delete']);
     }
+
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $phrasebook = $this->phrasebookService->findAll($request);
-
-        if ($phrasebook) {
-            if ($request->category) {
-                return new PhrasebookResource($phrasebook);
-            }
-
-            return new PhrasebookCollection($phrasebook);
-        }
         return response()->json([
             'message'   => 'Awww.. Dont\'t cry! it\'s a just a 404 error!',
         ], JsonResponse::HTTP_NOT_FOUND);
@@ -50,12 +40,12 @@ class PhraseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePhraseRequest $request)
+    public function store(CreatePhraseAudioRequest $request)
     {
         try {
-            $phrase = $this->phrasebookService->create($request);
+            $phraseAudio = $this->phraseAudioService->create($request);
             return response()->json(
-                new PhraseResource($phrase),
+                new PhraseAudioResource($phraseAudio),
                 JsonResponse::HTTP_CREATED
             );
         } catch (\Exception $e) {
@@ -88,8 +78,8 @@ class PhraseController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $phrase = $this->phrasebookService->update($request, $id);
-            if ($phrase) return new PhraseResource($phrase);
+            $phraseAudio = $this->phraseAudioService->update($request, $id);
+            if ($phraseAudio) return new PhraseAudioResource($phraseAudio);
         } catch (\Exception $e) {
             return response()->json([
                 'messages' => $e->getMessage()
@@ -103,12 +93,12 @@ class PhraseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
         try {
-            $result = $this->phrasebookService->delete($request);
+            $result = $this->phraseAudioService->delete($id);
             if ($result) return response()->json([
-                'message'   => 'Phrase has been delete!'
+                'message'   => 'Audio phrase has been delete!'
             ]);
         } catch (\Exception $exception) {
             return response()->json([

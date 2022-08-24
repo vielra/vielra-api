@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\PhraseAudioController;
 use App\Http\Controllers\PhraseCategoryController;
 use App\Http\Controllers\PhraseController;
 use Illuminate\Http\Request;
@@ -45,10 +46,12 @@ Route::prefix("/auth")->group(function () {
  */
 Route::prefix('/phrasebook')->group(function () {
     Route::apiResource('/category', PhraseCategoryController::class);
-    Route::apiResource('/phrase', PhraseController::class);
+    Route::post('/phrase/delete', [PhraseController::class, 'destroy']);
+    Route::apiResource('/phrase', PhraseController::class)->except(['destroy']);
+    Route::apiResource('/audio', PhraseAudioController::class);
 });
 
 
 Route::get('/get-uuid', function () {
-    return dd(\Illuminate\Support\Str::orderedUuid()->toString());
+    return \Illuminate\Support\Str::orderedUuid()->toString();
 });
