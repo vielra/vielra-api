@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PhraseAudioController;
 use App\Http\Controllers\PhraseCategoryController;
 use App\Http\Controllers\PhraseController;
+use App\Http\Controllers\PhraseReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,7 @@ Route::prefix("/auth")->group(function () {
 Route::prefix('/phrasebook')->group(function () {
     Route::apiResource('/category', PhraseCategoryController::class);
     Route::post('/phrase/delete', [PhraseController::class, 'destroy']);
+    Route::apiResource('/phrase/report', PhraseReportController::class)->only(['index', 'store']);
     Route::apiResource('/phrase', PhraseController::class)->except(['destroy']);
     Route::apiResource('/audio', PhraseAudioController::class);
 });
