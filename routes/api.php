@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CheckAvailabilityUsernameController;
 use App\Http\Controllers\PhraseAudioController;
 use App\Http\Controllers\PhraseCategoryController;
 use App\Http\Controllers\PhraseController;
@@ -39,6 +40,13 @@ Route::prefix("/auth")->group(function () {
     Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
 });
 
+
+/**
+ * -----------
+ * Phrasebook routes
+ * -----------
+ */
+Route::get('/check-availability-username/{username}', CheckAvailabilityUsernameController::class);
 
 /**
  * -----------
