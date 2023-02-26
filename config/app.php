@@ -241,5 +241,12 @@ return [
     */
     'app_icon_types'        => ['material-icons', 'material-community-icons', 'ionicons'],
     'default_app_icon_type' => 'material-icons',
-
+    'phrase_voice_codes'    => [
+        'vi-VN-Binh',
+        'vi-VN-Hyunh',
+        'vi-VN-Thi',
+        'vi-VN-Xuan',
+        'vi-VN-HoaiMy',
+        'vi-VN-Phuong'
+    ],
 ];

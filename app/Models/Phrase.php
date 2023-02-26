@@ -6,10 +6,11 @@ use App\Traits\Uuids;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Phrase extends Model
 {
-    use HasFactory, Uuids;
+    use HasFactory, Uuids, SoftDeletes;
 
     public static function boot()
     {
@@ -64,6 +65,13 @@ class Phrase extends Model
         'status_id' => PhraseStatus::ACTIVE,
         'order'     => 0,
     ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['audios'];
 
 
     /**
@@ -135,5 +143,14 @@ class Phrase extends Model
     public function status()
     {
         return $this->belongsTo(PhraseStatus::class, 'status_id');
+    }
+
+    /**
+     * Relationship between Phrase and PhraseAudio
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function audios()
+    {
+        return $this->hasMany(PhraseAudio::class);
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-
+use App\Http\Requests\CreatePhraseReportRequest;
 use App\Models\Phrase;
 use Illuminate\Http\Request;
 use App\Models\PhraseCategory;
 use App\Http\Requests\CreatePhraseRequest;
+use App\Models\PhraseReport;
 
 class PhrasebookService
 {
@@ -20,10 +21,7 @@ class PhrasebookService
     $phrasebook = null;
 
     if ($request->category) {
-      $phrasebook = PhraseCategory::active()->where('slug', $request->category)->first();
-      if ($phrasebook !== null) {
-        $phrasebook->with(['phrases']);
-      }
+      $phrasebook = PhraseCategory::active()->with(['phrases'])->where('slug', $request->category)->first();
     } else {
       $phrasebook = PhraseCategory::active()->with(['phrases'])->get();
     }
@@ -68,9 +66,12 @@ class PhrasebookService
    * Delete Phrase
    * 
    */
-  public function delete($id)
+  public function delete($request)
   {
-    $phrase = Phrase::findOrFail($id);
-    return $phrase->delete();
+    if (is_array($request->all())) {
+      return Phrase::whereIn('id', $request->all())->delete();
+    } else {
+      return false;
+    }
   }
 }
