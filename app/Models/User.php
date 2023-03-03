@@ -63,13 +63,13 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $with = ['socialAccount'];
+    protected $with = ['social_account'];
 
     /**
      * Relationship between User and SocialAccount
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function socialAccount()
+    public function social_account()
     {
         return $this->hasOne(SocialAccount::class);
     }

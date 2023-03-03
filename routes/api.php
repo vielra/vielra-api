@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\CheckAvailabilityUsernameController;
 use App\Http\Controllers\PhraseAudioController;
 use App\Http\Controllers\PhraseCategoryController;
@@ -38,6 +39,9 @@ Route::prefix("/auth")->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/login/{provider}', [AuthController::class, 'socialAccount']);
     Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
+
+    Route::get('/{provider}/url', [SocialAuthController::class, 'getUrl']);
+    Route::get('/{provider}/callback', [SocialAuthController::class, 'callback']);
 });
 
 

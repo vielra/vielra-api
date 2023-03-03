@@ -31,6 +31,10 @@ class AuthService
       'password'  => Hash::make($request->password)
     ])->only(['name', 'username', 'email', 'password']);
 
+    if(!$request->username) {
+      $newUser['username']  = Str::slug($request->name, '_') . time();
+    }
+
     return User::create($newUser);
   }
 
@@ -63,7 +67,7 @@ class AuthService
     $plainTextToken = Str::random(32);
     $resetLink = env('APP_FRONT_END_URL', 'http://localhost:3000')
       . "/reset-password/$plainTextToken";
-    $passwordReset = PasswordReset::where('email', $request->email)->fst();
+    $passwordReset = PasswordReset::where('email', $request->email)->first();
 
     if ($passwordReset) {
       // Update existing password reset.

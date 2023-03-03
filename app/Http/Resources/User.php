@@ -30,7 +30,7 @@ class User extends JsonResource
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at,
             'status'        => $this->status,
-            'social_account' => new SocialAccount($this->whenLoaded('socialAccount')),
+            'social_account' => new SocialAccount($this->whenLoaded('social_account')),
         ];
     }
 }

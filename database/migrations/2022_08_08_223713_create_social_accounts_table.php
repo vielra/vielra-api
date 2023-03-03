@@ -15,12 +15,12 @@ class CreateSocialAccountsTable extends Migration
     {
         Schema::create('social_accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id');
+            $table->foreignUuid('user_id')->nullable();
             $table->string('social_id', 50);
             $table->string('social_name');
             /** NOTES: email stored to users table. */
-            $table->string('social_photo_url')->nullable();
-            $table->enum('social_provider', ['google', 'facebook']);
+            $table->text('social_photo_url')->nullable();
+            $table->enum('social_provider', ['google', 'facebook', 'github']);
             $table->timestamps();
 
             $table->foreign('user_id')

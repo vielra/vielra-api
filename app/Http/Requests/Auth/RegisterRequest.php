@@ -24,10 +24,11 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => ['required', 'string'],
-            'email'     => ['required', 'email', 'unique:users,email'],
-            'username'  => ['required', 'string', 'min:3', 'max:100', 'regex:/^\S*$/u', 'unique:users,username'],
-            'password'  => ['required', 'confirmed'],
+            'name'          => ['required', 'string'],
+            'email'         => ['required', 'email', 'unique:users,email'],
+            'phone_number'  => ['nullable', 'unique:users,phone_number'],
+            'username'      => ['nullable', 'string', 'min:3', 'max:100', 'regex:/^\S*$/u', 'unique:users,username'],
+            'password'      => ['required', 'confirmed'],
         ];
     }
 }

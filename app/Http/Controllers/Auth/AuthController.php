@@ -53,8 +53,8 @@ class AuthController extends Controller
      */
     public function checkUsername(LoginCheckUsernameRequest $request)
     {
-        $this->user = User::where('username', $request->username)->first();
-        return new ResourcesUser($this->user);
+        $user = User::where('username', $request->username)->first();
+        return new ResourcesUser($user);
     }
 
     /**
@@ -116,6 +116,11 @@ class AuthController extends Controller
      */
     public function socialAccount(LoginWithSocialAccountRequest $request, string $provider)
     {
+
+        $request->validate([
+            'provider'  => ['required', 'string', 'in:facebook,google,github']
+        ]);
+
         $data = $request->only(['social_id', 'social_name', 'social_email', 'social_photo_url']);
         $user = $this->authService->loginWithSocialAccount($data, $provider);
         if ($user instanceof User) {
