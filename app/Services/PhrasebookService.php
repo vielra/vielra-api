@@ -16,16 +16,25 @@ class PhrasebookService
    * Find all phrasebook or by category.
    *
    */
-  public function findAll(Request $request)
+  public function findAll($data)
   {
     $phrasebook = null;
 
-    if ($request->category) {
-      $phrasebook = PhraseCategory::active()->with(['phrases'])->where('slug', $request->category)->first();
+    if (isset($data['category'])) {
+      $phrasebook = PhraseCategory::active()->with(['phrases'])->where('slug', $data['category'])->first();
     } else {
       $phrasebook = PhraseCategory::active()->with(['phrases'])->get();
     }
-    return $phrasebook;
+    return $phrasebook; // ->orderBy('order', 'asc')->get();
+  }
+
+  /**
+   * Get phrase by id
+   * 
+   */
+  public function findById($id)
+  {
+    return Phrase::findOrFail($id);
   }
 
 
@@ -33,15 +42,23 @@ class PhrasebookService
    * Create Phrase
    * 
    */
-  public function create(CreatePhraseRequest $request)
+  public function create($data)
   {
-    $userId = auth()->id();
+    $newPhrase = $data;
 
-    $data = $request->merge(['user_id' => $userId])->only([
-      'user_id', 'text_vi', 'text_en', 'text_id', 'category_id'
-    ]);
+    if (isset($data['confirmed']) && $data['confirmed']) {
+      $newPhrase['confirmed_by_user_id'] = auth()->id();
+    }
 
-    $phrase = Phrase::create($data);
+    $newPhrase['category_id'] = isset($data['category_id']) ? $data['category_id'] : PhraseCategory::ID_UNCATEGORY;
+
+    if (isset($data['mark_as_created_by_system']) && $data['mark_as_created_by_system']) {
+      $newPhrase['user_id'] = null;
+    } else {
+      $newPhrase['user_id'] = auth()->id();
+    }
+
+    $phrase = Phrase::create($newPhrase);
     return $phrase->fresh();
   }
 
@@ -49,14 +66,9 @@ class PhrasebookService
    * Update Phrase
    * 
    */
-  public function update(Request $request, $id)
+  public function update($data, $id)
   {
-    $data = $request->only([
-      'text_vi', 'text_en', 'text_id', 'category_id', 'order', 'status_id'
-    ]);
-
     $phrase = Phrase::findOrFail($id);
-
     $phrase->update($data);
     return $phrase->fresh();
   }
@@ -66,10 +78,31 @@ class PhrasebookService
    * Delete Phrase
    * 
    */
-  public function delete($request)
+  public function delete($phraseIds)
   {
-    if (is_array($request->all())) {
-      return Phrase::whereIn('id', $request->all())->delete();
+    if (is_array($phraseIds) && count($phraseIds) > 0) {
+      return Phrase::whereIn('id', $phraseIds)->delete();
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Confirm phrases
+   * 
+   */
+  public function confirm($phraseIds)
+  {
+    if (is_array($phraseIds) && count($phraseIds) > 0) {
+      foreach ($phraseIds as $id) {
+        $item = Phrase::findOrFail($id)->first();
+        if ($item)
+          $item->update([
+            'confirmed'             =>  1,
+            'confirmed_by_user_id'  => auth()->id(),
+          ]);
+      }
+      return true;
     } else {
       return false;
     }

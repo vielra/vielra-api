@@ -10,6 +10,8 @@ class PhraseCategory extends Model
 {
     use HasFactory, Uuids;
 
+    public const ID_UNCATEGORY = '97108888-1409-4acb-88f4-673898f0ec4e';
+
     protected $fillable = [
         'name',
         'slug',

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PhraseReportTypeSeeder::class,
             PhraseCategorySeeder::class,
             PhraseStatusSeeder::class,
+            SpeechNameSeeder::class,
             UserSeeder::class,
         ]);
     }

@@ -23,13 +23,11 @@ class CreatePhraseAudioRequest extends FormRequest
      */
     public function rules()
     {
-        $voiceCodes = implode(",", config('app.phrase_voice_codes'));
         return [
-            // 'phrase_id'     => ['required', 'string', 'exists:phrases,id'], // Don't need 
-            'locale'        => ['required', 'string', 'in:vi,en,id'],
-            'voice_code'    => ['required', 'string', "in:$voiceCodes"],
-            'base64_audio'  => ['required', 'string'],
-            'mime'          => ['required', 'string'],
+            'phrase_id'         => ['required', 'string'],
+            'speech_name_id'    => ['nullable', 'integer'],
+            'locale'            => ['required', 'string', 'in:vi,en,id'],
+            'audio_file'        => ['required', 'file'],
         ];
     }
 }

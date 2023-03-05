@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\PhraseCategory;
 use App\Models\PhraseAudio;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PhraseAudioService
@@ -17,42 +18,41 @@ class PhraseAudioService
    * Create Phrase audio
    * 
    */
-  public function create(CreatePhraseAudioRequest $request)
+  public function create($data)
   {
-    $data = $request->only([
-      'phrase_id', 'voice_code', 'locale', 'base64_audio', 'mime',
-    ]);
+    $file           = $data['audio_file'];
+    $speech_name_id = isset($data['speech_name_id']) ? $data['speech_name_id'] : null;
 
-    $fileName = $this->uploadAudio($request->base64_audio, $request->mime);
+    $extension          = $file->getClientOriginalExtension();
+    $mimeType           = $file->getClientMimeType();
+    $filePath           = 'audios/phrasebook';
 
-    if ($fileName) {
-      $data['audio_url'] = $fileName;
-    }
+    // Generate a file name with extension
+    $fileName = Str::random(10) . '.' . $extension;
 
-    $phrase = PhraseAudio::create($data);
-    return $phrase->fresh();
+    // Save the file
+    Storage::putFileAs("public/$filePath", $file, $fileName);
+
+    $newPhaseAudio = [
+      'user_id'               => auth()->id(),
+      'speech_name_id'        => $speech_name_id,
+      'locale'                => $data['locale'],
+      'phrase_id'             => $data['phrase_id'],
+      'mime_type'             => $mimeType,
+      'audio_url'             => "/$filePath/$fileName",
+    ];
+
+    $phraseAudio = PhraseAudio::create($newPhaseAudio);
+    return $phraseAudio->fresh();
   }
 
   /**
    * Update Phrase audio
    * 
    */
-  public function update(Request $request, $id)
+  public function update($data, $id)
   {
-    $data = $request->only([
-      'phrase_id', 'voice_code', 'locale', 'base64_audio', 'mime',
-    ]);
-
-    $fileName = $this->uploadAudio($request->base64_audio, $request->mime);
-
-    if ($fileName) {
-      $data['audio_url'] = $fileName;
-    }
-
-    $phraseAudio = PhraseAudio::findOrFail($id);
-    $phraseAudio->update($data);
-
-    return $phraseAudio->fresh();
+    //  Nothing
   }
 
 
@@ -63,6 +63,13 @@ class PhraseAudioService
   public function delete(string $id)
   {
     $phraseAudio = PhraseAudio::findOrFail($id);
+
+    $filePath = "/public$phraseAudio->audio_url";
+
+    if (Storage::exists($filePath)) {
+      Storage::delete($filePath);
+    }
+
     return $phraseAudio->delete();
   }
 

@@ -16,12 +16,13 @@ class CreatePhraseAudiosTable extends Migration
         Schema::create('phrase_audios', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('audio_url');
-            $table->enum('locale', ['vi', 'en', 'id'])->default('vi');
+            $table->enum('locale', ['vi', 'en', 'id'])->default('vi')->nullable();
             $table->foreignUuid('user_id')->nullable();
             $table->foreignUuid('phrase_id');
-            $table->enum('voice_code', config('app.phrase_voice_codes'));
+            // $table->enum('voice_code', config('app.phrase_voice_codes'));
+            $table->unsignedTinyInteger('speech_name_id')->nullable();
             $table->boolean('is_initial')->default(false);
-            $table->string('mime', 20);
+            $table->string('mime_type', 20);
             $table->timestamps();
         });
     }

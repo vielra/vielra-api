@@ -43,7 +43,9 @@ class PhraseAudioController extends Controller
     public function store(CreatePhraseAudioRequest $request)
     {
         try {
-            $phraseAudio = $this->phraseAudioService->create($request);
+            $phraseAudio = $this->phraseAudioService->create($request->only([
+                'phrase_id', 'locale', 'speech_name_id', 'audio_file'
+            ]));
             return response()->json(
                 new PhraseAudioResource($phraseAudio),
                 JsonResponse::HTTP_CREATED
@@ -77,14 +79,7 @@ class PhraseAudioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $phraseAudio = $this->phraseAudioService->update($request, $id);
-            if ($phraseAudio) return new PhraseAudioResource($phraseAudio);
-        } catch (\Exception $e) {
-            return response()->json([
-                'messages' => $e->getMessage()
-            ]);
-        }
+        //  Nothing
     }
 
     /**

@@ -24,10 +24,14 @@ class CreatePhraseRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id'       => ['required', 'string', 'exists:phrase_categories,id'],
-            'text_vi'           => ['required', 'string'],
-            'text_en'           => ['string', 'nullable'],
-            'text_id'           => ['string', 'nullable']
+            // 'category_id'               => ['required', 'string', 'exists:phrase_categories,id'],
+            'category_id'               => ['nullable', 'string'], // make it optional
+            'text_vi'                   => ['required', 'string'],
+            'text_en'                   => ['string', 'nullable'],
+            'text_id'                   => ['string', 'nullable'],
+            'confirmed'                 => ['nullable', 'boolean'],
+            'mark_as_created_by_system' => ['nullable', 'boolean'],
+            'order'                     => ['nullable', 'integer']
         ];
     }
 }

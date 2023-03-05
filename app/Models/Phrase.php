@@ -23,22 +23,7 @@ class Phrase extends Model
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = $uuid;
             }
-
-            // Order
-            $model->order = self::getNextOrderNumber($model);
-
-            /** user id */
-            $model->user_id = auth()->user()->id;
         });
-    }
-
-    private function getNextOrderNumber($model)
-    {
-        $lastRow = $model->orderBy('order', 'desc')->first();
-        if ($lastRow) {
-            return $lastRow->order + 1;
-        }
-        return 0;
     }
 
     /**
@@ -53,8 +38,18 @@ class Phrase extends Model
         'category_id',
         'status_id',
         'order',
+        'confirmed',
+        'confirmed_by_user_id',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'confirmed'     => 'boolean',
+    ];
 
     /**
      * The model's default values for attributes.
@@ -62,8 +57,8 @@ class Phrase extends Model
      * @var array
      */
     protected $attributes = [
-        'status_id' => PhraseStatus::ACTIVE,
-        'order'     => 0,
+        'status_id'     => PhraseStatus::ACTIVE,
+        'order'         => 0,
     ];
 
     /**

@@ -15,16 +15,19 @@ class Phrase extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                => $this->id,
-            'status_id'         => $this->status_id,
-            'order'             => $this->order,
-            'text'              => [
-                'vi'            => $this->text_vi,
-                'en'            => $this->text_en,
-                'id'            => $this->text_id,
+            'id'                    => $this->id,
+            'status_id'             => $this->status_id,
+            'order'                 => $this->order,
+            'text'                  => [
+                'vi'                => $this->text_vi,
+                'en'                => $this->text_en,
+                'id'                => $this->text_id,
             ],
-            'audios'            => new PhraseAudioCollection($this->whenLoaded('audios')),
-            'has_reported'      => $this->has_reported,
+            'audios'                => new PhraseAudioCollection($this->whenLoaded('audios')),
+            'has_reported'          => $this->has_reported,
+            'user_id'               => $this->user_id,
+            'confirmed'             => $this->confirmed,
+            'confirmed_by_user_id'  => $this->confirmed_by_user_id,
         ];
     }
 }
