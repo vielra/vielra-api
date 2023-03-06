@@ -11,7 +11,7 @@ class PasswordReset extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['email', 'token'];
+    protected $fillable = ['email', 'token', 'app_id'];
 
     /**
      * The attributes that should be hidden for serialization.

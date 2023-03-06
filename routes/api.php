@@ -9,6 +9,7 @@ use App\Http\Controllers\PhraseController;
 use App\Http\Controllers\PhraseReportController;
 use App\Http\Controllers\SpeechNameController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,10 +38,11 @@ Route::prefix("/auth")->group(function () {
     Route::post('/login-check-username', [AuthController::class, 'checkUsername']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/send-reset-password-link', [AuthController::class, 'sendResetPasswordLink']);
-    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('/password-reset/verify', [AuthController::class, 'verifyTokenPasswordReset']);
+    Route::post('/password-reset', [AuthController::class, 'resetPassword']);
     Route::post('/login/{provider}', [AuthController::class, 'socialAccount']);
     Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
-
+    
     Route::get('/{provider}/url', [SocialAuthController::class, 'getUrl']);
     Route::get('/{provider}/callback', [SocialAuthController::class, 'callback']);
 });

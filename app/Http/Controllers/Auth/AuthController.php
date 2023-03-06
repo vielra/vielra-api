@@ -13,7 +13,6 @@ use App\Http\Requests\Auth\LoginCheckUsernameRequest;
 use App\Http\Requests\Auth\LoginWithSocialAccountRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -86,10 +85,32 @@ class AuthController extends Controller
      */
     public function sendResetPasswordLink(Request $request)
     {
-        $result = $this->authService->sendResetPasswordLink($request);
+        $request->validate([
+            'email'     => ['required', 'email', 'exists:users,email'],
+            'app_id'    => ['nullable', 'string']
+        ]);
+        $result = $this->authService->sendResetPasswordLink($request->only(['email', 'app_id']));
         if ($result) return response()->json([
             'message'   => 'A Reset password link has been send to your email'
         ], JsonResponse::HTTP_OK);
+    }
+
+
+    public function verifyTokenPasswordReset(Request $request)
+    {
+        $request->validate([
+            'token'     => ['required', 'string'],
+            'email'     => ['required', 'email', 'exists:users,email']
+        ]);
+        $result = $this->authService->verifyTokenPasswordReset($request->only(['email', 'token']));
+        if ($result) {
+            return new ResourcesUser($result);
+        } else {
+            return response()->json([
+                'message'   => 'Invalid token or token doesn\'t exists',
+                'status'    => true,
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
     }
 
 
@@ -98,11 +119,13 @@ class AuthController extends Controller
      */
     public function resetPassword(ResetPasswordRequest $request)
     {
-        $result = $this->authService->resetPassword($request);
-        if ($result) {
+        $user = $this->authService->resetPassword($request);
+        if ($user) {
+            $token = $user->createToken($user->email)->plainTextToken;
             return response()->json([
-                'message'   => 'Reset password success!'
-            ]);
+                'token' => $token,
+                'user'  => new ResourcesUser($user)
+            ], JsonResponse::HTTP_OK);
         } else {
             return response()->json([
                 'message'   => 'Opss, we can not reset your password. Maybe you already did ? Otherwise please try reset password again.'
@@ -112,6 +135,7 @@ class AuthController extends Controller
 
 
     /**
+     * Login for Mobile App
      * Login external with social account.
      */
     public function socialAccount(LoginWithSocialAccountRequest $request, string $provider)

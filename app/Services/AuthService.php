@@ -13,6 +13,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\SocialAccount;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use \Laravel\Sanctum\PersonalAccessToken;
 
@@ -31,7 +32,7 @@ class AuthService
       'password'  => Hash::make($request->password)
     ])->only(['name', 'username', 'email', 'password']);
 
-    if(!$request->username) {
+    if (!$request->username) {
       $newUser['username']  = Str::slug($request->name, '_') . time();
     }
 
@@ -58,33 +59,47 @@ class AuthService
   /**
    * Send reset password link.
    */
-  public function sendResetPasswordLink(Request $request)
+  public function sendResetPasswordLink(array $data)
   {
-    $request->validate([
-      'email' => ['required', 'email', 'exists:users,email']
-    ]);
+    $plainTextToken   = Str::random(36);
+    $appId            = isset($data['app_id']) ? $data['app_id'] : 'community-app-v1.0';
+    $email            = $data['email'];
+    $resetLink        = env('APP_FRONT_END_URL', 'http://localhost:3000') . "/reset-password?app_id=$appId&token=$plainTextToken&email=$email";
 
-    $plainTextToken = Str::random(32);
-    $resetLink = env('APP_FRONT_END_URL', 'http://localhost:3000')
-      . "/reset-password/$plainTextToken";
-    $passwordReset = PasswordReset::where('email', $request->email)->first();
+    $passwordReset = PasswordReset::where('email', $email)->first();
 
     if ($passwordReset) {
       // Update existing password reset.
       $passwordReset->token = Hash::make($plainTextToken);
       $passwordReset->save();
-
-      // TODO
-      // Send $resetLink to email
-
-      return $passwordReset;
     } else {
       $passwordReset = PasswordReset::create([
-        'email'       => $request->email,
+        'email'       => $email,
         'token'       => Hash::make($plainTextToken),
         'created_at'  => Carbon::now(),
+        'app_id'      => $appId,
       ]);
-      return $passwordReset;
+    }
+
+    // TODO
+    // Send $resetLink to email
+    Mail::to($email)->send(new \App\Mail\ResetPasswordInstruction([
+      'link'  => $resetLink,
+      'email' => $email,
+    ]));
+
+    return $passwordReset;
+  }
+
+
+  public function verifyTokenPasswordReset($data)
+  {
+    $user           = User::where('email', $data['email'])->first();
+    $passwordReset  = PasswordReset::where('email', $data['email'])->first();
+    if ($user && Hash::check($data['token'], $passwordReset->token)) {
+      return $user;
+    } else {
+      return false;
     }
   }
 
