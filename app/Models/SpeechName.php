@@ -15,7 +15,8 @@ class SpeechName extends Model
         'language_code',
     ];
 
-    public function phrase() {
+    public function phrase()
+    {
         return $this->hasOne(Phrase::class);
     }
 }

@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Services\AuthService;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\User as ResourcesUser;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\LoginCheckUsernameRequest;
-use App\Http\Requests\Auth\LoginWithSocialAccountRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\Request;
+use App\Http\Resources\User as ResourcesUser;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
 
 class AuthController extends Controller
 {
@@ -25,24 +23,37 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    /**
-     * Register
-     * 
-     * @param  App\Http\Requests\Auth\RegisterRequest $request;
-     * @return \Illuminate\Http\Response
-     */
-    public function register(RegisterRequest $request)
+    public function registerWithEmailAndPassword(RegisterRequest $request)
     {
-        $user = $this->authService->register($request);
+        $user = $this->authService->registerWithEmailAndPassword($request->only(['name', 'username', 'email', 'password']));
         if ($user instanceof User) {
             $token = $user->createToken($user->email)->plainTextToken;
-            return response()->json([
+            return Response::json([
                 'token' => $token,
                 'user'  => new ResourcesUser($user)
             ], JsonResponse::HTTP_CREATED);
         }
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email'     => ['required', 'string'],
+            'password'  => ['required', 'string'],
+        ]);
+        $user = $this->authService->login($request->only(['email', 'password']));
+        if ($user instanceof User) {
+            $token = $user->createToken($user->email)->plainTextToken;
+            return Response::json([
+                'token' => $token,
+                'user'  => new ResourcesUser($user)
+            ], JsonResponse::HTTP_OK);
+        } else {
+            return Response::json([
+                'message'     => 'The provided credentials are incorrect.',
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
 
     /**
      * Check username before login
@@ -50,33 +61,10 @@ class AuthController extends Controller
      * @param  App\Http\Requests\Auth\LoginCheckUsernameRequest $request;
      * @return \Illuminate\Http\Response
      */
-    public function checkUsername(LoginCheckUsernameRequest $request)
+    public function checkUsername(Request $request)
     {
-        $user = User::where('username', $request->username)->first();
-        return new ResourcesUser($user);
-    }
-
-    /**
-     * Login
-     * 
-     * @param  App\Http\Requests\Auth\LoginRequest $request;
-     * @return \Illuminate\Http\Response
-     */
-    public function login(LoginRequest $request)
-    {
-        $user = $this->authService->login($request);
-
-        if ($user instanceof User) {
-            $token = $user->createToken($user->email)->plainTextToken;
-            return response()->json([
-                'token' => $token,
-                'user'  => new ResourcesUser($user)
-            ], JsonResponse::HTTP_OK);
-        } else {
-            return response()->json([
-                'message'     => 'The provided credentials are incorrect.',
-            ], JsonResponse::HTTP_BAD_REQUEST);
-        }
+        $result = $this->authService->checkAvailabilityUsername($request->only('username'));
+        return Response::json($result);
     }
 
 
@@ -87,10 +75,9 @@ class AuthController extends Controller
     {
         $request->validate([
             'email'     => ['required', 'email', 'exists:users,email'],
-            'app_id'    => ['nullable', 'string']
         ]);
-        $result = $this->authService->sendResetPasswordLink($request->only(['email', 'app_id']));
-        if ($result) return response()->json([
+        $result = $this->authService->sendResetPasswordLink($request->only(['email']));
+        if ($result) return Response::json([
             'message'   => 'A Reset password link has been send to your email'
         ], JsonResponse::HTTP_OK);
     }
@@ -106,56 +93,35 @@ class AuthController extends Controller
         if ($result) {
             return new ResourcesUser($result);
         } else {
-            return response()->json([
+            return Response::json([
                 'message'   => 'Invalid token or token doesn\'t exists',
                 'status'    => true,
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
-
     /**
      * Reset password
      */
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(Request $request)
     {
-        $user = $this->authService->resetPassword($request);
+        $request->validate([
+            'password'  => ['required', 'confirmed'],
+            'token'     => ['required', 'string'],
+            'email'     => ['required', 'email', 'exists:users,email'],
+        ]);
+        $user = $this->authService->resetPassword($request->only([
+            'password', 'token', 'email'
+        ]));
         if ($user) {
             $token = $user->createToken($user->email)->plainTextToken;
-            return response()->json([
+            return Response::json([
                 'token' => $token,
                 'user'  => new ResourcesUser($user)
             ], JsonResponse::HTTP_OK);
         } else {
-            return response()->json([
+            return Response::json([
                 'message'   => 'Opss, we can not reset your password. Maybe you already did ? Otherwise please try reset password again.'
-            ], JsonResponse::HTTP_BAD_REQUEST);
-        }
-    }
-
-
-    /**
-     * Login for Mobile App
-     * Login external with social account.
-     */
-    public function socialAccount(LoginWithSocialAccountRequest $request, string $provider)
-    {
-
-        $request->validate([
-            'provider'  => ['required', 'string', 'in:facebook,google,github']
-        ]);
-
-        $data = $request->only(['social_id', 'social_name', 'social_email', 'social_photo_url']);
-        $user = $this->authService->loginWithSocialAccount($data, $provider);
-        if ($user instanceof User) {
-            $token = $user->createToken($user->email)->plainTextToken;
-            return response()->json([
-                'token' => $token,
-                'user'  => new ResourcesUser($user)
-            ], JsonResponse::HTTP_OK);
-        } else {
-            return response()->json([
-                'message'     => 'Something went wrong!',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
@@ -168,11 +134,11 @@ class AuthController extends Controller
         $request->validate(['currentAccessToken' => ['required', 'string']]);
         $result = $this->authService->deleteCurrentAccessToken($request->currentAccessToken);
         if ($result) {
-            return response()->json([
+            return Response::json([
                 'message'   => 'Token has been delete!'
             ], JsonResponse::HTTP_OK);
         } else {
-            return response()->json([
+            return Response::json([
                 'message'   => 'Failed to remove access token'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,12 +13,10 @@ class SpeechNameSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $speechNames = [
+        $speechNamesSeeder = [
             // vi-VN
             [
                 'id'            => 1,
@@ -123,6 +122,6 @@ class SpeechNameSeeder extends Seeder
         ];
 
         DB::table($this->tableName)->delete();
-        DB::table($this->tableName)->insert($speechNames);
+        DB::table($this->tableName)->insert($speechNamesSeeder);
     }
 }

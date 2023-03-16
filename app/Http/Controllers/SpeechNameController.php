@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SpeechNameCollection;
 use App\Models\SpeechName;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class SpeechNameController extends Controller
     public function index()
     {
         $speechNames = SpeechName::all();
-        return $speechNames;
+        return new SpeechNameCollection($speechNames);
     }
 
     /**

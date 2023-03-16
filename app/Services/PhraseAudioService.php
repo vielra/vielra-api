@@ -2,10 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\CreatePhraseAudioRequest;
-use App\Models\Phrase;
-use Illuminate\Http\Request;
-use App\Models\PhraseCategory;
 use App\Models\PhraseAudio;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +9,15 @@ use Illuminate\Support\Str;
 
 class PhraseAudioService
 {
+
+  /**
+   * Find all phrase audios
+   */
+  public function findAll($data)
+  {
+    $audios = PhraseAudio::all();
+    return $audios;
+  }
 
   /**
    * Create Phrase audio

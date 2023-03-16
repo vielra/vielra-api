@@ -2,12 +2,8 @@
 
 namespace App\Services;
 
-use App\Http\Requests\CreatePhraseReportRequest;
 use App\Models\Phrase;
-use Illuminate\Http\Request;
 use App\Models\PhraseCategory;
-use App\Http\Requests\CreatePhraseRequest;
-use App\Models\PhraseReport;
 
 class PhrasebookService
 {

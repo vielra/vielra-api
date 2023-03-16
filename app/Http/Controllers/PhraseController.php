@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Services\PhrasebookService;
-use App\Http\Requests\CreatePhraseRequest;
+use Illuminate\Support\Facades\Response;
+use App\Http\Requests\StorePhraseRequest;
 use App\Http\Resources\PhrasebookCollection;
 use App\Http\Resources\Phrase as PhraseResource;
 use App\Http\Resources\Phrasebook as PhrasebookResource;
-use Illuminate\Support\Facades\Response;
+use Exception;
 
 class PhraseController extends Controller
 {
-
     private PhrasebookService $phrasebookService;
 
     public function __construct(PhrasebookService $phrasebookService)
@@ -31,18 +31,17 @@ class PhraseController extends Controller
      */
     public function index(Request $request)
     {
-        $phrasebook = $this->phrasebookService->findAll($request->all());
-
-        if ($phrasebook) {
+        try {
+            $phrasebook = $this->phrasebookService->findAll($request->all());
             if ($request->category) {
                 return new PhrasebookResource($phrasebook);
             }
-
             return new PhrasebookCollection($phrasebook);
+        } catch (Exception $exception) {
+            return Response::json([
+                'message'   => $exception->getMessage(),
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
-        return Response::json([
-            'message'   => 'Awww.. Dont\'t cry! it\'s a just a 404 error!',
-        ], JsonResponse::HTTP_NOT_FOUND);
     }
 
     /**
@@ -51,7 +50,7 @@ class PhraseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePhraseRequest $request)
+    public function store(StorePhraseRequest $request)
     {
         try {
             $data = $request->only([
@@ -79,8 +78,14 @@ class PhraseController extends Controller
      */
     public function show($id)
     {
-        $phrase = $this->phrasebookService->findById($id);
-        return new PhraseResource($phrase);
+        try {
+            $phrase = $this->phrasebookService->findById($id);
+            return new PhraseResource($phrase);
+        } catch (Exception $exception) {
+            return Response::json([
+                'message'   => $exception->getMessage(),
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
     }
 
     /**

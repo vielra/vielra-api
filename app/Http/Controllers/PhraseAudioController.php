@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Services\PhraseAudioService;
-use App\Http\Requests\CreatePhraseAudioRequest;
 use App\Http\Resources\PhraseAudio as PhraseAudioResource;
+use App\Http\Requests\StorePhraseAudioRequest;
+use App\Http\Resources\PhraseAudioCollection;
+use Illuminate\Support\Facades\Response;
 
 class PhraseAudioController extends Controller
 {
-
     private PhraseAudioService $phraseAudioService;
 
     public function __construct(PhraseAudioService $phraseAudioService)
@@ -27,11 +28,16 @@ class PhraseAudioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json([
-            'message'   => 'Awww.. Dont\'t cry! it\'s a just a 404 error!',
-        ], JsonResponse::HTTP_NOT_FOUND);
+        try {
+            $audios = $this->phraseAudioService->findAll($request->all());
+            return new PhraseAudioCollection($audios);
+        } catch (\Exception $e) {
+            return Response::json([
+                'messages' => $e->getMessage()
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -40,20 +46,20 @@ class PhraseAudioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePhraseAudioRequest $request)
+    public function store(StorePhraseAudioRequest $request)
     {
         try {
             $phraseAudio = $this->phraseAudioService->create($request->only([
                 'phrase_id', 'locale', 'speech_name_id', 'audio_file'
             ]));
-            return response()->json(
+            return Response::json(
                 new PhraseAudioResource($phraseAudio),
                 JsonResponse::HTTP_CREATED
             );
         } catch (\Exception $e) {
-            return response()->json([
+            return Response::json([
                 'messages' => $e->getMessage()
-            ]);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -65,7 +71,7 @@ class PhraseAudioController extends Controller
      */
     public function show($id)
     {
-        return response()->json([
+        return Response::json([
             'message'   => 'Awww.. Dont\'t cry! it\'s a just a 404 error!',
         ], JsonResponse::HTTP_NOT_FOUND);
     }
@@ -92,13 +98,13 @@ class PhraseAudioController extends Controller
     {
         try {
             $result = $this->phraseAudioService->delete($id);
-            if ($result) return response()->json([
+            if ($result) return Response::json([
                 'message'   => 'Audio phrase has been delete!'
             ]);
         } catch (\Exception $exception) {
-            return response()->json([
+            return Response::json([
                 'message'   => $exception->getMessage(),
-            ]);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 }

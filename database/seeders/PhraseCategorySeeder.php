@@ -2,31 +2,27 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 class PhraseCategorySeeder extends Seeder
 {
-
     private $tableName = 'phrase_categories';
-
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        DB::table($this->tableName)->delete();
-        $categories = array(
+        $phraseCategoriesSeeder = array(
             array(
                 'id'        => '97108888-1409-4acb-88f4-673898f0ec4e',
                 'slug'      => 'uncategory',
                 'order'     => 0,
                 'color'     => '#4B4868',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Uncategory',
@@ -39,8 +35,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'common',
                 'order'     => 1,
                 'color'     => '#1F65FF',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Common',
@@ -53,8 +50,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'pronouns',
                 'order'     => 2,
                 'color'     => '#FFB302',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Pronouns',
@@ -67,8 +65,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'greeting',
                 'order'     => 3,
                 'color'     => '#067CFF',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Greeting',
@@ -81,8 +80,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'basic-conversation',
                 'order'     => 4,
                 'color'     => '#08BA6C',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Basic Conversation',
@@ -95,8 +95,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'activity',
                 'order'     => 5,
                 'color'     => '#B371FF',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'activity',
@@ -109,8 +110,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'body-personality',
                 'order'     => 6,
                 'color'     => '#00B386',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Body & Personality',
@@ -124,8 +126,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'family',
                 'order'     => 7,
                 'color'     => '#B211FF',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Family',
@@ -138,8 +141,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'dating-romance',
                 'order'     => 8,
                 'color'     => '#F90074',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Dating & Romance',
@@ -152,8 +156,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'music-film',
                 'order'     => 9,
                 'color'     => '#D84A4A',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Music & Movies',
@@ -166,8 +171,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'health',
                 'order'     => 10,
                 'color'     => '#17B427',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Health',
@@ -180,8 +186,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'emergency',
                 'order'     => 11,
                 'color'     => '#FF2222',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Emergency',
@@ -194,8 +201,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'eat',
                 'order'     => 12,
                 'color'     => '#C17D6B',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Eat',
@@ -208,8 +216,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'shopping',
                 'order'     => 13,
                 'color'     => '#8F9C11',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Shopping',
@@ -222,8 +231,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'sightseeing',
                 'order'     => 14,
                 'color'     => '#546C7B',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Sightseeing',
@@ -236,8 +246,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'number',
                 'order'     => 15,
                 'color'     => '#FC493C',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Numbers',
@@ -250,8 +261,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'animal',
                 'order'     => 16,
                 'color'     => '#8f6a3f',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Animal',
@@ -264,8 +276,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'flowers',
                 'order'     => 17,
                 'color'     => '#F568D7',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Flowers',
@@ -278,8 +291,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'fruit-vegetable',
                 'order'     => 18,
                 'color'     => '#5CA4FD',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Fruit & Vegetable',
@@ -292,8 +306,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'shapes-colors',
                 'order'     => 19,
                 'color'     => '#f5a300',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Shapes & Colors',
@@ -306,8 +321,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'date-time',
                 'order'     => 20,
                 'color'     => '#00ba70',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Date & Time',
@@ -320,8 +336,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'transportations',
                 'order'     => 21,
                 'color'     => '#ae60e3',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Transportations',
@@ -334,8 +351,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'accommodations',
                 'order'     => 22,
                 'color'     => '#FF641F',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Accommodations',
@@ -348,8 +366,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'directions',
                 'order'     => 23,
                 'color'     => '#1d4774',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Directions',
@@ -362,8 +381,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'weather',
                 'order'     => 24,
                 'color'     => '#902bff',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Weather',
@@ -376,8 +396,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'driving',
                 'order'     => 25,
                 'color'     => '#24A601',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Driving',
@@ -390,8 +411,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'places',
                 'order'     => 26,
                 'color'     => '#D07B06',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Places',
@@ -405,8 +427,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'feelings',
                 'order'     => 27,
                 'color'     => '#32416E',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Feelings',
@@ -419,8 +442,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'hobbies',
                 'order'     => 28,
                 'color'     => '#83415D',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Hobbies',
@@ -433,8 +457,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'question-reasioning',
                 'order'     => 29,
                 'color'     => '#248f2f',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Question & Reasioning',
@@ -447,8 +472,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'airport',
                 'order'     => 30,
                 'color'     => '#B72A44',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Airport',
@@ -461,8 +487,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'post-office',
                 'order'     => 31,
                 'color'     => '#ff773d',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Post Office',
@@ -475,8 +502,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'phone-internet',
                 'order'     => 32,
                 'color'     => '#2C6FE5',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Phone & Internet',
@@ -489,8 +517,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'banking',
                 'order'     => 33,
                 'color'     => '#109029',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Banking',
@@ -503,8 +532,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'education',
                 'order'     => 34,
                 'color'     => '#bb1dff',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Education',
@@ -517,8 +547,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'occupations',
                 'order'     => 35,
                 'color'     => '#FF4626',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Occupations',
@@ -531,8 +562,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'business-talk',
                 'order'     => 36,
                 'color'     => '#B86539',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Business Talk',
@@ -545,8 +577,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'sports',
                 'order'     => 37,
                 'color'     => '#f75255',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Sports',
@@ -559,8 +592,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'countries',
                 'order'     => 38,
                 'color'     => '#0086ff',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Countries',
@@ -573,8 +607,9 @@ class PhraseCategorySeeder extends Seeder
                 'slug'      => 'others',
                 'order'     => 39,
                 'color'     => '#4c4357',
-                'icon_name' => null,
-                'icon_type' => null,
+                'mobile_icon' => null,
+                'mobile_icon_type' => null,
+                'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
                     'en'    => 'Others',
@@ -583,6 +618,8 @@ class PhraseCategorySeeder extends Seeder
                 ])
             ),
         );
-        DB::table($this->tableName)->insert($categories);
+
+        DB::table($this->tableName)->delete();
+        DB::table($this->tableName)->insert($phraseCategoriesSeeder);
     }
 }

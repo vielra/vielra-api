@@ -3,28 +3,13 @@
 namespace App\Models;
 
 use App\Traits\Uuids;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Phrase extends Model
 {
     use HasFactory, Uuids, SoftDeletes;
-
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($model) {
-
-            $uuid =  Str::orderedUuid()->toString();
-
-            // Override Uuids trait
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = $uuid;
-            }
-        });
-    }
 
     /**
      * The attribute that are mass assignable.
@@ -57,7 +42,7 @@ class Phrase extends Model
      * @var array
      */
     protected $attributes = [
-        'status_id'     => PhraseStatus::ACTIVE,
+        'status_id'     => PhraseStatus::STATUS_ID_ACTIVE,
         'order'         => 0,
     ];
 
@@ -77,7 +62,7 @@ class Phrase extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status_id', PhraseStatus::ACTIVE);
+        return $query->where('status_id', PhraseStatus::STATUS_ID_ACTIVE);
     }
 
     /**
@@ -88,7 +73,7 @@ class Phrase extends Model
      */
     public function scopeInActive($query)
     {
-        return $query->where('status_id', PhraseStatus::INACTIVE);
+        return $query->where('status_id', PhraseStatus::STATUS_ID_INACTIVE);
     }
 
     /**
@@ -99,7 +84,7 @@ class Phrase extends Model
      */
     public function scopeAwaitingApprove($query)
     {
-        return $query->where('status_id', PhraseStatus::AWAITING_APPROVE);
+        return $query->where('status_id', PhraseStatus::STATUS_ID_AWAITING_APPROVE);
     }
 
     /**
@@ -110,7 +95,7 @@ class Phrase extends Model
      */
     public function scopeInvalid($query)
     {
-        return $query->where('status_id', PhraseStatus::INVALID);
+        return $query->where('status_id', PhraseStatus::STATUS_ID_INVALID);
     }
 
     /**

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PhraseCategory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
 use App\Http\Resources\PhraseCategoryCollection;
-use App\Http\Requests\CreatePhraseCategoryRequest;
 use App\Http\Resources\PhraseCategory as PhraseCategoryResource;
 
 class PhraseCategoryController extends Controller
@@ -27,7 +28,7 @@ class PhraseCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePhraseCategoryRequest $request)
+    public function store(Request $request)
     {
         try {
             $data = $request->only([
@@ -38,9 +39,9 @@ class PhraseCategoryController extends Controller
             $newCategory = PhraseCategory::create($data);
             return new PhraseCategoryResource($newCategory);
         } catch (\Exception $e) {
-            return response()->json([
+            return Response::json([
                 'messages' => $e->getMessage()
-            ]);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -74,9 +75,9 @@ class PhraseCategoryController extends Controller
             $phraseCategory->update($data);
             return new PhraseCategoryResource($phraseCategory);
         } catch (\Exception $e) {
-            return response()->json([
+            return Response::json([
                 'messages' => $e->getMessage()
-            ]);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -91,13 +92,13 @@ class PhraseCategoryController extends Controller
         try {
             $phraseCategory = PhraseCategory::findOrFail($id);
             $phraseCategory->delete();
-            return response()->json([
+            return Response::json([
                 'message'   => 'Phrase category has been delete!'
             ]);
         } catch (\Exception $exception) {
-            return response()->json([
+            return Response::json([
                 'message'   => $exception->getMessage(),
-            ]);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 }

@@ -282,7 +282,8 @@
                                                             outline: none;
                                                             color: #126de5;
                                                         ">
-                            <img src="https://apidev.vielra.com/assets/mails/logo-primary-vertical-lookup.png" width="100" height="26" alt="SimpleApp" style="
+                            <img src="{{ URL::to('/assets/mails/logo-primary-vertical-lookup.png') }}" width="100" height="26" 
+                            alt="{{ config('app.name')}}" style="
                                                                 max-width: 100px;
                                                                 -ms-interpolation-mode: bicubic;
                                                                 vertical-align: middle;
@@ -348,7 +349,7 @@
                                                                             display: inline;
                                                                             color: #82899a;
                                                                         ">{{ $data['email'] }}</span>
-                                  <img src="https://apidev.vielra.com/assets/mails/person-24-light.png" width="24" height="24" alt="" style="
+                                  <img src="{{ URL::to('/assets/mails/person-24-light.png') }}" width="24" height="24" alt="" style="
                                                                             max-width: 24px;
                                                                             -ms-interpolation-mode: bicubic;
                                                                             vertical-align: middle;
@@ -436,7 +437,7 @@
                                                             padding-top: 16px;
                                                             padding-bottom: 16px;
                                                         ">
-                            <img src="https://apidev.vielra.com/assets/mails/vpn_key-48-primary.png" width="48" height="48" alt="" style="
+                            <img src="{{ URL::to('/assets/mails/vpn_key-48-primary.png') }}" width="48" height="48" alt="" style="
                                                                 max-width: 48px;
                                                                 -ms-interpolation-mode: bicubic;
                                                                 vertical-align: middle;

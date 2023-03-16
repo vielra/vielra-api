@@ -3,24 +3,27 @@
 namespace App\Models;
 
 use App\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class PhraseCategory extends Model
 {
     use HasFactory, Uuids;
 
     public const ID_UNCATEGORY = '97108888-1409-4acb-88f4-673898f0ec4e';
+    public const LIST_MOBILE_ICONS = ['material-icon', 'material-community-icon', 'ionicon', 'feather'];
 
     protected $fillable = [
         'name',
         'slug',
         'color',
-        'icon_name',
-        'icon_type',
+        'mobile_icon',
+        'mobile_icon_type',
+        'web_icon',
         'image_url',
         'order',
-        'is_active'
+        'is_initial',
+        'is_active',
     ];
 
     /**
@@ -29,7 +32,6 @@ class PhraseCategory extends Model
      * @var array
      */
     protected $attributes = [
-        'status_id' => PhraseStatus::ACTIVE,
         'order'     => 0,
         'is_active' => 1,
     ];

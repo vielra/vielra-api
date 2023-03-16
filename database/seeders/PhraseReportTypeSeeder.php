@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,12 +13,10 @@ class PhraseReportTypeSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $phraseReportTypes = [
+        $phraseReportTypesSeeder = [
             [
                 'id'            => 1,
                 'name'          => json_encode([
@@ -48,6 +47,6 @@ class PhraseReportTypeSeeder extends Seeder
         ];
 
         DB::table($this->tableName)->delete();
-        DB::table($this->tableName)->insert($phraseReportTypes);
+        DB::table($this->tableName)->insert($phraseReportTypesSeeder);
     }
 }

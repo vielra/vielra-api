@@ -12,11 +12,6 @@ class PhraseAudio extends Model
 
     protected $table = 'phrase_audios';
 
-    /** 
-     * Eager load on every query
-     */
-    protected $with = ['speech_name'];
-
     protected $fillable = [
         'speech_name_id',
         'audio_url',
@@ -25,6 +20,12 @@ class PhraseAudio extends Model
         'phrase_id',
         'mime_type'
     ];
+
+    /** 
+     * Eager load on every query (That's fine)
+     */
+    protected $with = ['speech_name'];
+
 
     /**
      * Relationship between PhraseAudio and Phrase

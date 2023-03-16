@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User as ResourceUser;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Str;
 
 class SocialAuthController extends Controller
 {
-
     public function getUrl($provider)
     {
         return Response::json([
@@ -33,10 +33,10 @@ class SocialAuthController extends Controller
 
             $photoUrl = null;
 
-            if($provider === 'facebook') {
+            if ($provider === 'facebook') {
                 $photoUrl = $providerUser->avatar_original . "&access_token=$providerUser->token";
-            } else if($provider === 'google') {
-                $photoUrl = $this->getSocialAvatar($providerUser->getAvatar());
+            } else if ($provider === 'google') {
+                $photoUrl = $this->getGoogleAvatarUser($providerUser->getAvatar());
             } else {
                 $photoUrl = $providerUser->getAvatar();
             }
@@ -76,7 +76,7 @@ class SocialAuthController extends Controller
         ], JsonResponse::HTTP_OK);
     }
 
-    private function getSocialAvatar(string $avatarUrl): string
+    private function getGoogleAvatarUser(string $avatarUrl): string
     {
         if (Str::contains($avatarUrl, 's96')) {
             return  Str::replace('s96', 's500', $avatarUrl);

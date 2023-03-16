@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePhraseReportRequest;
-use App\Http\Resources\PhraseReport as PhraseReportResource;
+use App\Http\Requests\StorePhraseReportRequest;
 use App\Http\Resources\PhraseReportCollection;
 use App\Models\PhraseReport;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class PhraseReportController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware(['auth:sanctum'])->only('index');
@@ -35,18 +35,18 @@ class PhraseReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePhraseReportRequest $request)
+    public function store(StorePhraseReportRequest $request)
     {
         $data = $request->only(['phrase_id', 'user_id', 'report_type_id', 'body']);
         try {
             $phrase =  PhraseReport::create($data);
-            if ($phrase) return response()->json([
+            if ($phrase) return Response::json([
                 'message'   => 'Your report has been sent successfully!'
             ]);
         } catch (\Exception $exception) {
-            return response()->json([
+            return Response::json([
                 'message'   => $exception->getMessage(),
-            ]);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 

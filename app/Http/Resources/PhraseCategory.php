@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PhraseCategory extends JsonResource
@@ -9,18 +10,18 @@ class PhraseCategory extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return [
             'id'                => $this->id,
             'name'              => json_decode($this->name),
             'slug'              => $this->slug,
             'color'             => $this->color,
-            'icon_name'         => $this->icon_name,
-            'icon_type'         => $this->icon_type,
+            'mobile_icon'       => $this->mobile_icon,
+            'mobile_icon_type'  => $this->mobile_icon_type,
+            'web_icon'          => $this->web_icon,
             'image_url'         => $this->image_url,
             'order'             => $this->order,
             'is_active'         => $this->is_active,

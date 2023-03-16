@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class PhraseStatus extends Model
 {
     use HasFactory;
 
-
     // Constants
-    const ACTIVE            = 1;
-    const INACTIVE          = 2;
-    const AWAITING_APPROVE  = 3;
-    const INVALID           = 4;
+    const STATUS_ID_ACTIVE            = 1;
+    const STATUS_ID_INACTIVE          = 2;
+    const STATUS_ID_AWAITING_APPROVE  = 3;
+    const STATUS_ID_INVALID           = 4;
 
     public $timestamps = false;
 

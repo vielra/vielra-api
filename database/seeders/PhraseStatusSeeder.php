@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,32 +13,49 @@ class PhraseStatusSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-
-        $phraseStatuses = [
+        $phraseStatusesSeeder = [
             [
-                'id'        => 1,
-                'name'      => 'Active'
+                'id'            => 1,
+                'name'          => json_encode([
+                    'en'        => 'Active',
+                    'id'        => 'Aktif',
+                    'vi'        => '?'
+                ]),
+                'description'   => null,
             ],
             [
-                'id'        => 2,
-                'name'      => 'Inactive'
+                'id'            => 2,
+                'name'          => json_encode([
+                    'en'        => 'Inactive',
+                    'id'        => 'Tidak Aktif',
+                    'vi'        => '?'
+                ]),
+                'description'   => null,
             ],
             [
-                'id'        => 3,
-                'name'      => 'Awaiting Approve'
+                'id'            => 3,
+                'name'          => json_encode([
+                    'en'        => 'Awaiting Approve',
+                    'id'        => 'Menunggu Persetujuan',
+                    'vi'        => '?'
+                ]),
+                'description'   => null,
             ],
             [
-                'id'        => 4,
-                'name'      => 'Invalid'
-            ]
+                'id'            => 4,
+                'name'          => json_encode([
+                    'en'        => 'Invalid',
+                    'id'        => 'Tidak Valid',
+                    'vi'        => '?'
+                ]),
+                'description'   => null,
+            ],
         ];
 
         DB::table($this->tableName)->delete();
-        DB::table($this->tableName)->insert($phraseStatuses);
+        DB::table($this->tableName)->insert($phraseStatusesSeeder);
     }
 }

@@ -5,38 +5,48 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
-use App\Models\PasswordReset;
-use Illuminate\Http\Request;
+use App\Models\ResetPasswordToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
-use App\Models\SocialAccount;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 use \Laravel\Sanctum\PersonalAccessToken;
 
 class AuthService
 {
 
   /**
-   * Register
-   * 
-   * @param App\Http\Request\RegisterRequest $request;
-   * @return \Illuminate\Http\Response
+   * Register with email and password
    */
-  public function register(RegisterRequest $request)
+  public function registerWithEmailAndPassword($data)
   {
-    $newUser = $request->merge([
-      'password'  => Hash::make($request->password)
-    ])->only(['name', 'username', 'email', 'password']);
+    $newUser = $data;
+    $newUser['password'] = Hash::make($data['password']);
 
-    if (!$request->username) {
-      $newUser['username']  = Str::slug($request->name, '_') . time();
+    if (isset($data['username']) && $data['username']) {
+      $newUser['username']  = $data['username'];
+    } else {
+      $newUser['username']  = Str::slug($data['name'], '_') . time();
     }
 
     return User::create($newUser);
+  }
+
+
+  /**
+   * Check availability username when register in mobile app
+   */
+  public function checkAvailabilityUsername($username)
+  {
+    $user = User::where('username', $username)->first();
+    if ($user) {
+      return [
+        'availability'     => false
+      ];
+    } else {
+      return [
+        'availability'     => true
+      ];
+    }
   }
 
 
@@ -46,11 +56,10 @@ class AuthService
    * @param @param App\Http\Request\LoginRequest $request;
    * @return \Illuminate\Http\Response
    */
-  public function login(LoginRequest $request)
+  public function login($data)
   {
-    $credentials = $request->only(['email', 'password']);
-    if (Auth::attempt($credentials)) {
-      return User::where('email', $request->email)->first();
+    if (Auth::attempt($data)) {
+      return User::where('email', $data['email'])->first();
     }
     return;
   }
@@ -64,16 +73,16 @@ class AuthService
     $plainTextToken   = Str::random(36);
     $appId            = isset($data['app_id']) ? $data['app_id'] : 'community-app-v1.0';
     $email            = $data['email'];
-    $resetLink        = env('APP_FRONT_END_URL', 'http://localhost:3000') . "/reset-password?app_id=$appId&token=$plainTextToken&email=$email";
+    $resetLink        = config('app.app_frontend_url') . "/reset-password?app_id=$appId&token=$plainTextToken&email=$email";
 
-    $passwordReset = PasswordReset::where('email', $email)->first();
+    $passwordReset = ResetPasswordToken::where('email', $email)->first();
 
     if ($passwordReset) {
       // Update existing password reset.
       $passwordReset->token = Hash::make($plainTextToken);
       $passwordReset->save();
     } else {
-      $passwordReset = PasswordReset::create([
+      $passwordReset = ResetPasswordToken::create([
         'email'       => $email,
         'token'       => Hash::make($plainTextToken),
         'created_at'  => Carbon::now(),
@@ -81,7 +90,6 @@ class AuthService
       ]);
     }
 
-    // TODO
     // Send $resetLink to email
     Mail::to($email)->send(new \App\Mail\ResetPasswordInstruction([
       'link'  => $resetLink,
@@ -95,7 +103,7 @@ class AuthService
   public function verifyTokenPasswordReset($data)
   {
     $user           = User::where('email', $data['email'])->first();
-    $passwordReset  = PasswordReset::where('email', $data['email'])->first();
+    $passwordReset  = ResetPasswordToken::where('email', $data['email'])->first();
     if ($user && Hash::check($data['token'], $passwordReset->token)) {
       return $user;
     } else {
@@ -107,12 +115,12 @@ class AuthService
   /**
    * Reset password
    */
-  public function resetPassword(ResetPasswordRequest $request)
+  public function resetPassword($data)
   {
-    $passwordReset = PasswordReset::where('email', $request->email)->first();
-    if ($passwordReset !== null && Hash::check($request->token, $passwordReset->token)) {
-      $user = User::where('email', $request->email)->first();
-      $user->password = Hash::make($request->password);
+    $passwordReset = ResetPasswordToken::where('email', $data['email'])->first();
+    if ($passwordReset !== null && Hash::check($data['token'], $passwordReset->token)) {
+      $user = User::where('email', $data['email'])->first();
+      $user->password = Hash::make($data['password']);
       $user->save();
 
       // Then delete reset password row.
@@ -121,41 +129,6 @@ class AuthService
       return $user;
     } else {
       return;
-    }
-  }
-
-  /**
-   * Login with social account.
-   * 
-   * @param array $data;
-   * @param string "google" | "facebook";
-   * @return \Illuminate\Http\Response
-   */
-  public function loginWithSocialAccount(array $data, string $provider)
-  {
-    if ($data && $provider) {
-      $user = User::where('email', $data['social_email'])->first();
-
-      // The first time user login with this account.
-      if ($user === null) {
-        /** Create new social account */
-        $socialAccount = new SocialAccount;
-
-        $socialAccount->social_provider     = $provider;
-        $socialAccount->social_id           = $data['social_id'];
-        $socialAccount->social_name         = $data['social_name'];
-        $socialAccount->social_photo_url    = $data['social_photo_url'];
-
-        $user = User::create([
-          'name'      => $data['social_name'],
-          'email'     => $data['social_email'],
-          'username'  => $data['social_id'], // That's oke, user can change username anytime.
-        ]);
-        $socialAccount->fill(['user_id' => $user->id])->save();
-      }
-      return $user->fresh();
-    } else {
-      return  null;
     }
   }
 
