@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('phrases', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('text_vi');
-            $table->string('text_en')->nullable();
-            $table->string('text_id')->nullable();
+            $table->text('text_vi');
+            $table->text('text_en')->nullable();
+            $table->text('text_id')->nullable();
             $table->foreignUuid('user_id')->nullable();
             $table->foreignUuid('category_id');
             $table->unsignedTinyInteger('status_id');
