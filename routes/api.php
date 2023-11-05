@@ -50,6 +50,7 @@ Route::prefix('/auth')->group(function () {
     Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
     Route::get('/{provider}/url', [SocialAuthController::class, 'getUrl']);
     Route::get('/{provider}/callback', [SocialAuthController::class, 'callback']);
+    Route::get('/user', [AuthController::class, 'getUser']);
 });
 
 /**

@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function __construct(AuthService $authService)
     {
-        $this->middleware(['auth:sanctum'])->only(['revokeToken']);
+        $this->middleware(['auth:sanctum'])->only(['revokeToken', 'getUser']);
         $this->authService = $authService;
     }
 
@@ -51,6 +51,21 @@ class AuthController extends Controller
         } else {
             return Response::json([
                 'message'     => 'The provided credentials are incorrect.',
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Get authenticated user
+     */
+    public function getUser()
+    {
+        try {
+            $user = User::findOrFail(auth()->id());
+            return new ResourcesUser($user);
+        } catch (\Exception $exception) {
+            return Response::json([
+                'message' => $exception->getMessage()
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
