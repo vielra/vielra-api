@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('text_en')->nullable();
             $table->text('text_id')->nullable();
             $table->foreignUuid('user_id')->nullable();
-            $table->foreignUuid('category_id');
+            // $table->foreignUuid('category_id');
             $table->unsignedTinyInteger('status_id');
             $table->unsignedInteger('order')->default(0);
             $table->boolean('is_initial')->default(false);

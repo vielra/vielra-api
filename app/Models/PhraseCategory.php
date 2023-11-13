@@ -97,6 +97,6 @@ class PhraseCategory extends Model
      */
     public function phrases()
     {
-        return $this->hasMany(Phrase::class, 'category_id');
+        return $this->belongsToMany(Phrase::class, 'phrase_category_to_phrase', 'category_id', 'phrase_id');
     }
 }

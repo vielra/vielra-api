@@ -54,9 +54,10 @@ class PhraseController extends Controller
     {
         try {
             $data = $request->only([
-                'category_id',
+                'category_ids',
                 'text_vi',
-                'text_en', 'text_id',
+                'text_en',
+                'text_id',
                 'confirmed',
                 'mark_as_created_by_system',
                 'order'
@@ -100,9 +101,10 @@ class PhraseController extends Controller
         try {
             $data = $request->only([
                 'phrase_id',
-                'category_id',
+                'category_ids',
                 'text_vi',
-                'text_en', 'text_id',
+                'text_en',
+                'text_id',
                 'confirmed',
                 'mark_as_created_by_system',
                 'order'
