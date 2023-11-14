@@ -100,7 +100,7 @@ class PhraseCategorySeeder extends Seeder
                 'web_icon'  => null,
                 'image_url' => null,
                 'name'      => json_encode([
-                    'en'    => 'activity',
+                    'en'    => 'Activity',
                     'id'    => 'Aktivitas',
                     'vi'    => null
                 ])
@@ -120,7 +120,6 @@ class PhraseCategorySeeder extends Seeder
                     'vi'    => null
                 ])
             ),
-
             array(
                 'id'        => '971088db-f284-43cc-89ac-a96ec2b00464',
                 'slug'      => 'family',

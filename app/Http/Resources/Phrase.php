@@ -24,6 +24,7 @@ class Phrase extends JsonResource
                 'id'                => $this->text_id,
             ],
             'audios'                => new PhraseAudioCollection($this->whenLoaded('audios')),
+            'categories'            => new PhraseCategoryCollection($this->whenLoaded('categories')),
             'has_reported'          => $this->has_reported,
             'user_id'               => $this->user_id,
             'confirmed'             => $this->confirmed,

@@ -20,7 +20,6 @@ class Phrase extends Model
         'text_vi',
         'text_en',
         'text_id',
-        'category_id',
         'status_id',
         'order',
         'confirmed',
@@ -111,10 +110,16 @@ class Phrase extends Model
      * Relationship between Phrase and PhraseCategory
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
+    // public function category()
+    // {
+    //     return $this->belongsTo(PhraseCategory::class, 'category_id');
+    // }
+
+    public function categories()
     {
-        return $this->belongsTo(PhraseCategory::class, 'category_id');
+        return $this->belongsToMany(PhraseCategory::class, 'phrase_category_to_phrase', 'phrase_id', 'category_id');
     }
+
 
     /**
      * Relationship between Phrase and PhraseStatus
