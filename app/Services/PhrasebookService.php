@@ -46,15 +46,21 @@ class PhrasebookService
       $newPhrase['confirmed_by_user_id'] = auth()->id();
     }
 
-    $newPhrase['category_id'] = isset($data['category_id']) ? $data['category_id'] : PhraseCategory::ID_UNCATEGORY;
-
     if (isset($data['mark_as_created_by_system']) && $data['mark_as_created_by_system']) {
       $newPhrase['user_id'] = null;
     } else {
       $newPhrase['user_id'] = auth()->id();
     }
-
     $phrase = Phrase::create($newPhrase);
+
+    if (isset($data['category_ids'])) {
+      if (count($data['category_ids'])) {
+        $phrase->categories()->sync($data['category_ids']);
+      } else {
+        $phrase->categories()->sync([PhraseCategory::ID_UNCATEGORY]);
+      }
+    }
+
     return $phrase->fresh();
   }
 

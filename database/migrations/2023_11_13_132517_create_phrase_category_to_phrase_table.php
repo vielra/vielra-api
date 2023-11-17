@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('phrases', function (Blueprint $table) {
-            $table->foreign('category_id')->references('id')->on('phrase_categories');
+        Schema::create('phrase_category_to_phrase', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('phrase_id');
+            $table->foreignUuid('category_id');
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('phrases', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('phrase_category_to_phrase');
     }
 };
