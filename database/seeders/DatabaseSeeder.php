@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PhraseStatusSeeder::class,
             SpeechNameSeeder::class,
             UserSeeder::class,
+            OTPSettingTableSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

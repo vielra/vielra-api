@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('email')->index();
             $table->string('token');
             $table->string('app_id')->nullable();
+            $table->boolean('isActive')->default(true);
             $table->timestamp('created_at')->nullable();
         });
     }

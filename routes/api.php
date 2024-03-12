@@ -5,6 +5,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\PhraseAudioController;
 use App\Http\Controllers\PhraseCategoryController;
@@ -45,12 +46,18 @@ Route::prefix('/auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/send-reset-password-link', [AuthController::class, 'sendResetPasswordLink']);
     Route::post('/password-reset/verify', [AuthController::class, 'verifyTokenPasswordReset']);
-    Route::post('/password-reset', [AuthController::class, 'resetPassword']);
     Route::post('/login/{provider}', [AuthController::class, 'socialAccount']);
     Route::post('/revoke-token', [AuthController::class, 'revokeToken']);
     Route::get('/{provider}/url', [SocialAuthController::class, 'getUrl']);
     Route::get('/{provider}/callback', [SocialAuthController::class, 'callback']);
     Route::get('/user', [AuthController::class, 'getUser']);
+
+    // Reset password
+    Route::prefix('password/otp')->name('reset-password.')->group(function () {
+        Route::post('/send-code', [ResetPasswordController::class, 'sendOtpResetPassword']);
+        Route::post('/verify-code', [ResetPasswordController::class, 'verifyCode']);
+    });
+    Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
 });
 
 /**
