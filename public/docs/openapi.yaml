@@ -1,0 +1,1694 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://127.0.0.1:8000'
+tags:
+  -
+    name: 'Admin Product'
+    description: ''
+  -
+    name: 'Admin Product Category'
+    description: ''
+  -
+    name: 'Admin Product Option'
+    description: ''
+  -
+    name: 'Admin Tag'
+    description: ''
+  -
+    name: 'Admin Variationx'
+    description: ''
+  -
+    name: Auth
+    description: ''
+  -
+    name: 'Product Category'
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.'
+security:
+  -
+    default: []
+paths:
+  /api/admin/product:
+    get:
+      summary: '[Admin] Get product list'
+      operationId: AdminGetProductList
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Product'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paginate:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                page:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 54
+                  nullable: false
+                perPage:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 52
+                  nullable: false
+              required:
+                - paginate
+    post:
+      summary: '[Admin] Create product'
+      operationId: AdminCreateProduct
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Recusandae nesciunt ut et doloremque omnis.'
+                  nullable: true
+                shortDescription:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: qrvyrdqfgwtvtnjdengiafyv
+                  nullable: true
+                metaKeywords:
+                  type: string
+                  description: ''
+                  example: doloremque
+                  nullable: true
+                metaDescription:
+                  type: string
+                  description: ''
+                  example: natus
+                  nullable: true
+                slug:
+                  type: string
+                  description: ''
+                  example: dicta
+                  nullable: false
+                taxClassId:
+                  type: integer
+                  description: ''
+                  example: 15
+                  nullable: true
+                sku:
+                  type: string
+                  description: ''
+                  example: esse
+                  nullable: true
+                price:
+                  type: number
+                  description: 'Must be at least 0. Must not be greater than 99999999999999.'
+                  example: 5
+                  nullable: true
+                specialPrice:
+                  type: number
+                  description: 'Must be at least 0. Must not be greater than 99999999999999.'
+                  example: 17
+                  nullable: true
+                specialPriceType:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                specialPriceStart:
+                  type: string
+                  description: ''
+                  example: non
+                  nullable: true
+                specialPriceEnd:
+                  type: string
+                  description: ''
+                  example: id
+                  nullable: true
+                manageStock:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                qty:
+                  type: number
+                  description: 'This field is required when <code>manage_stock</code> is <code>1</code>.'
+                  example: 46191.06889
+                  nullable: true
+                inStock:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                status:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                published:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                newFrom:
+                  type: string
+                  description: ''
+                  example: rerum
+                  nullable: true
+                newTo:
+                  type: string
+                  description: ''
+                  example: ipsam
+                  nullable: true
+              required:
+                - title
+                - slug
+                - manageStock
+                - inStock
+                - status
+                - published
+  '/api/admin/product/{id}':
+    get:
+      summary: '[Admin] Get product by {slug}'
+      operationId: AdminGetProductByslug
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Product'
+    put:
+      summary: '[Admin] Update product by {id}'
+      operationId: AdminUpdateProductByid
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: ''
+                  example: at
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Magni sit adipisci quod.'
+                  nullable: true
+                shortDescription:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: cqkpjeqoqvpotukodksffepw
+                  nullable: true
+                metaKeywords:
+                  type: string
+                  description: ''
+                  example: impedit
+                  nullable: true
+                metaDescription:
+                  type: string
+                  description: ''
+                  example: dolorum
+                  nullable: true
+                slug:
+                  type: string
+                  description: ''
+                  example: odit
+                  nullable: false
+                taxClassId:
+                  type: integer
+                  description: ''
+                  example: 11
+                  nullable: true
+                sku:
+                  type: string
+                  description: ''
+                  example: sequi
+                  nullable: true
+                price:
+                  type: number
+                  description: 'Must be at least 0. Must not be greater than 99999999999999.'
+                  example: 22
+                  nullable: true
+                specialPrice:
+                  type: number
+                  description: 'Must be at least 0. Must not be greater than 99999999999999.'
+                  example: 11
+                  nullable: true
+                specialPriceType:
+                  type: integer
+                  description: ''
+                  example: 11
+                  nullable: true
+                specialPriceStart:
+                  type: string
+                  description: ''
+                  example: perspiciatis
+                  nullable: true
+                specialPriceEnd:
+                  type: string
+                  description: ''
+                  example: id
+                  nullable: true
+                manageStock:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                qty:
+                  type: number
+                  description: 'This field is required when <code>manage_stock</code> is <code>1</code>.'
+                  example: 25766962.719394
+                  nullable: true
+                inStock:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                status:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                published:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                newFrom:
+                  type: string
+                  description: ''
+                  example: iste
+                  nullable: true
+                newTo:
+                  type: string
+                  description: ''
+                  example: praesentium
+                  nullable: true
+              required:
+                - title
+                - slug
+                - manageStock
+                - inStock
+                - status
+                - published
+    delete:
+      summary: '[Admin] Delete product by {id}'
+      operationId: AdminDeleteProductByid
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the product.'
+        example: animi
+        required: true
+        schema:
+          type: string
+  /api/admin/category:
+    get:
+      summary: ''
+      operationId: getApiAdminCategory
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Product Category'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paginate:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                page:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 23
+                  nullable: false
+                perPage:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 27
+                  nullable: false
+              required:
+                - paginate
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product Category'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: doloremque
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Vel assumenda voluptatum quae ut neque rerum.'
+                  nullable: true
+                metaKeywords:
+                  type: string
+                  description: ''
+                  example: rem
+                  nullable: true
+                metaDescription:
+                  type: string
+                  description: ''
+                  example: non
+                  nullable: true
+                position:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                isActive:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                isSearchable:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                slug:
+                  type: string
+                  description: ''
+                  example: voluptatibus
+                  nullable: false
+              required:
+                - name
+                - isActive
+                - isSearchable
+                - slug
+  '/api/admin/category/{id}':
+    get:
+      summary: ''
+      operationId: getApiAdminCategoryId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Product Category'
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product Category'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: asperiores
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eaque asperiores consequatur magnam.'
+                  nullable: true
+                metaKeywords:
+                  type: string
+                  description: ''
+                  example: velit
+                  nullable: true
+                metaDescription:
+                  type: string
+                  description: ''
+                  example: aspernatur
+                  nullable: true
+                position:
+                  type: integer
+                  description: ''
+                  example: 18
+                  nullable: true
+                isActive:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                isSearchable:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                slug:
+                  type: string
+                  description: ''
+                  example: null
+                  nullable: true
+              required:
+                - name
+                - isActive
+                - isSearchable
+    delete:
+      summary: ''
+      operationId: deleteApiAdminCategoryId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product Category'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: et
+        required: true
+        schema:
+          type: string
+  /api/admin/option:
+    get:
+      summary: '[Admin] Get list product option'
+      operationId: AdminGetListProductOption
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Product Option'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paginate:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                page:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 30
+                  nullable: false
+                perPage:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 67
+                  nullable: false
+              required:
+                - paginate
+    post:
+      summary: '[Admin] Create product option'
+      operationId: AdminCreateProductOption
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product Option'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: ''
+                  example: ad
+                  nullable: false
+                isGlobal:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                position:
+                  type: integer
+                  description: ''
+                  example: 15
+                  nullable: false
+                isRequired:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                values:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      price:
+                        type: integer
+                        description: ''
+                        example: 12
+                        nullable: false
+                      priceType:
+                        type: integer
+                        description: ''
+                        example: 17
+                        nullable: false
+                        enum:
+                          - 1
+                          - 2
+                      position:
+                        type: integer
+                        description: ''
+                        example: 10
+                        nullable: false
+                    required:
+                      - price
+                      - priceType
+                      - position
+              required:
+                - type
+                - isGlobal
+                - position
+                - isRequired
+                - values
+  '/api/admin/option/{id}':
+    get:
+      summary: '[Admin] Get product option by {id}'
+      operationId: AdminGetProductOptionByid
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Product Option'
+    put:
+      summary: '[Admin] Update product option by {id}'
+      operationId: AdminUpdateProductOptionByid
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product Option'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: ''
+                  example: et
+                  nullable: false
+                isGlobal:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                position:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: false
+                isRequired:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                values:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      price:
+                        type: integer
+                        description: ''
+                        example: 14
+                        nullable: false
+                      priceType:
+                        type: integer
+                        description: ''
+                        example: 1
+                        nullable: false
+                        enum:
+                          - 1
+                          - 2
+                      position:
+                        type: integer
+                        description: ''
+                        example: 5
+                        nullable: false
+                    required:
+                      - price
+                      - priceType
+                      - position
+              required:
+                - type
+                - isGlobal
+                - position
+                - isRequired
+                - values
+    delete:
+      summary: '[Admin] Delete product option by {id}'
+      operationId: AdminDeleteProductOptionByid
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Product Option'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the option.'
+        example: ut
+        required: true
+        schema:
+          type: string
+  /api/product:
+    get:
+      summary: 'Get all tags'
+      operationId: getAllTags
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - 'Admin Tag'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paginate:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                page:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 14
+                  nullable: false
+                perPage:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 77
+                  nullable: false
+                name:
+                  type: string
+                  description: ''
+                  example: quia
+                  nullable: true
+                isActive:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                createdAt:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>.'
+                  example: '2025-05-22'
+                  nullable: true
+              required:
+                - paginate
+    post:
+      summary: 'Create a newly tag.'
+      operationId: createANewlyTag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Tag'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+                slug:
+                  type: string
+                  description: ''
+                  example: ad
+                  nullable: false
+                position:
+                  type: integer
+                  description: ''
+                  example: 10
+                  nullable: false
+                isActive:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+              required:
+                - name
+  '/api/product/{product}':
+    get:
+      summary: 'Get tag by id'
+      operationId: getTagById
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - 'Admin Tag'
+    put:
+      summary: 'Update tag'
+      operationId: updateTag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Tag'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: quos
+                  nullable: false
+                slug:
+                  type: string
+                  description: ''
+                  example: sapiente
+                  nullable: false
+                position:
+                  type: integer
+                  description: ''
+                  example: 5
+                  nullable: false
+                isActive:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+              required:
+                - name
+    delete:
+      summary: 'Delete tag'
+      operationId: deleteTag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Tag'
+    parameters:
+      -
+        in: path
+        name: product
+        description: 'The product.'
+        example: eos
+        required: true
+        schema:
+          type: string
+  /api/admin/tag:
+    get:
+      summary: 'Get list tag'
+      operationId: getListTag
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Tag'
+    post:
+      summary: 'Create new tag'
+      operationId: createNewTag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Tag'
+  '/api/admin/tag/{id}':
+    get:
+      summary: 'Get tag by id'
+      operationId: getTagById
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Admin Tag'
+    put:
+      summary: 'Update tag'
+      operationId: updateTag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Tag'
+    delete:
+      summary: 'Delete tag'
+      operationId: deleteTag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Tag'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the tag.'
+        example: non
+        required: true
+        schema:
+          type: string
+  /api/admin/variation:
+    get:
+      summary: '[Admin] Get all variation'
+      operationId: AdminGetAllVariation
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data: []
+                  links:
+                    first: null
+                    last: null
+                    prev: null
+                    next: null
+                  meta:
+                    currentPage: 64
+                    perPage: 46
+                    lastPage: 1
+                    total: 0
+                properties:
+                  data:
+                    type: array
+                    example: []
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: null
+                      last:
+                        type: string
+                        example: null
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: integer
+                        example: 64
+                      perPage:
+                        type: integer
+                        example: 46
+                      lastPage:
+                        type: integer
+                        example: 1
+                      total:
+                        type: integer
+                        example: 0
+      tags:
+        - 'Admin Variationx'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paginate:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                page:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 64
+                  nullable: false
+                perPage:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 46
+                  nullable: false
+              required:
+                - paginate
+    post:
+      summary: '[Admin] Create variation'
+      operationId: AdminCreateVariation
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Variationx'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: integer
+                  description: ''
+                  example: 18
+                  nullable: false
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                name:
+                  type: string
+                  description: ''
+                  example: occaecati
+                  nullable: false
+                position:
+                  type: integer
+                  description: ''
+                  example: 6
+                  nullable: false
+                isGlobal:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                values:
+                  type: array
+                  description: 'Must have at least 1 items. Must not have more than 99 items.'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        description: ''
+                        example: fuga
+                        nullable: false
+                      color:
+                        type: string
+                        description: 'This field is required when <code>type</code> is <code>color</code>. Must match the regex /^#(?:[0-9a-fA-F]{3}){1,2}$/.'
+                        example: '#:4C0'
+                        nullable: false
+                      image:
+                        type: string
+                        description: 'This field is required when <code>type</code> is <code>image</code>.'
+                        example: null
+                        nullable: false
+                    required:
+                      - label
+              required:
+                - type
+                - name
+                - position
+                - isGlobal
+                - values
+  '/api/admin/variation/{id}':
+    get:
+      summary: '[Admin] Get variation by {id}'
+      operationId: AdminGetVariationByid
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - 'Admin Variationx'
+    put:
+      summary: '[Admin] Update variation by {id}'
+      operationId: AdminUpdateVariationByid
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Variationx'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: integer
+                  description: ''
+                  example: 18
+                  nullable: false
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                name:
+                  type: string
+                  description: ''
+                  example: voluptatem
+                  nullable: false
+                position:
+                  type: integer
+                  description: ''
+                  example: 15
+                  nullable: false
+                isGlobal:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                values:
+                  type: array
+                  description: 'Must have at least 1 items. Must not have more than 99 items.'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        description: ''
+                        example: quia
+                        nullable: false
+                      color:
+                        type: string
+                        description: 'This field is required when <code>type</code> is <code>color</code>. Must match the regex /^#(?:[0-9a-fA-F]{3}){1,2}$/.'
+                        example: '#:331:158)'
+                        nullable: false
+                      image:
+                        type: string
+                        description: 'This field is required when <code>type</code> is <code>image</code>.'
+                        example: null
+                        nullable: false
+                    required:
+                      - label
+              required:
+                - type
+                - name
+                - position
+                - isGlobal
+                - values
+    delete:
+      summary: 'Delete variation by {id}'
+      operationId: deleteVariationByid
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Variationx'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the variation.'
+        example: voluptatibus
+        required: true
+        schema:
+          type: string
+  /api/auth/register:
+    post:
+      summary: 'Register with email & password'
+      operationId: registerWithEmailPassword
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: quibusdam
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: utremblay@example.org
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'B/Try%@_#:yT&|Ylb&8'
+                  nullable: false
+                passwordConfirmation:
+                  type: string
+                  description: 'The value and <code>password</code> must match.'
+                  example: totam
+                  nullable: false
+              required:
+                - name
+                - email
+                - password
+                - passwordConfirmation
+  /api/auth/login-check-username:
+    post:
+      summary: 'Check username'
+      operationId: checkUsername
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: ''
+                  example: quis
+                  nullable: false
+              required:
+                - username
+  /api/auth/login:
+    post:
+      summary: 'Login with email & password'
+      operationId: loginWithEmailPassword
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: sincere.breitenberg@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'j"%}u+y,*!75+'
+                  nullable: false
+              required:
+                - email
+                - password
+  /api/auth/send-reset-password-link:
+    post:
+      summary: 'Send reset password link.'
+      operationId: sendResetPasswordLink
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: kendrick13@example.org
+                  nullable: false
+                appId:
+                  type: string
+                  description: ''
+                  example: dicta
+                  nullable: false
+              required:
+                - email
+                - appId
+  /api/auth/password-reset/verify:
+    post:
+      summary: 'Verify token password reset.'
+      operationId: verifyTokenPasswordReset
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: ''
+                  example: vel
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+                  example: leopoldo.cole@example.com
+                  nullable: false
+              required:
+                - token
+                - email
+  /api/auth/password-reset:
+    post:
+      summary: 'Reset password'
+      operationId: resetPassword
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: ''
+                  example: incidunt
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+                  example: jarret42@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 9AY7NUU
+                  nullable: false
+                passwordConfirmation:
+                  type: string
+                  description: 'The value and <code>password</code> must match.'
+                  example: vitae
+                  nullable: false
+              required:
+                - token
+                - email
+                - password
+                - passwordConfirmation
+  /api/auth/revoke-token:
+    post:
+      summary: 'Revoke token from the database'
+      operationId: revokeTokenFromTheDatabase
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentAccessToken:
+                  type: string
+                  description: ''
+                  example: reprehenderit
+                  nullable: false
+              required:
+                - currentAccessToken
+  /api/auth/user:
+    get:
+      summary: 'Get authenticated user'
+      operationId: getAuthenticatedUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Auth
+  /api/auth/google/mobile:
+    post:
+      summary: 'Google sign in mobile'
+      operationId: googleSignInMobile
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                providerAccountId:
+                  type: string
+                  description: ''
+                  example: nihil
+                  nullable: false
+                providerEmail:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: fay.lonie@example.com
+                  nullable: false
+                providerAccountName:
+                  type: string
+                  description: ''
+                  example: consectetur
+                  nullable: false
+                providerPhotoUrl:
+                  type: string
+                  description: ''
+                  example: 'http://zboncak.info/'
+                  nullable: true
+                providerName:
+                  type: string
+                  description: ''
+                  example: reiciendis
+                  nullable: false
+              required:
+                - providerAccountId
+                - providerEmail
+                - providerAccountName
+                - providerName
+  /api/category:
+    get:
+      summary: 'Get product categories'
+      operationId: getProductCategories
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 2
+                    userId: null
+                    parentId: null
+                    slug: second-category
+                    position: 1
+                    isSearchable: true
+                    isActive: true
+                    createdAt: '2025-05-22T16:01:58.000000Z'
+                    updatedAt: '2025-05-22T16:01:58.000000Z'
+                    deletedAt: null
+                    name: 'Second Category'
+                    description: 'second desc'
+                    metaKeywords: null
+                    metaDescription: null
+                    user: null
+                  -
+                    id: 1
+                    userId: null
+                    parentId: null
+                    slug: first-category
+                    position: 1
+                    isSearchable: true
+                    isActive: true
+                    createdAt: '2025-05-22T16:01:58.000000Z'
+                    updatedAt: '2025-05-22T16:01:58.000000Z'
+                    deletedAt: null
+                    name: 'Second Category'
+                    description: 'first desc'
+                    metaKeywords: null
+                    metaDescription: null
+                    user: null
+      tags:
+        - 'Product Category'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paginate:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                page:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 23
+                  nullable: false
+                perPage:
+                  type: number
+                  description: 'Must be at least 1.'
+                  example: 9
+                  nullable: false
+              required:
+                - paginate
+  '/api/category/{id}':
+    get:
+      summary: 'Get category by {slug}'
+      operationId: getCategoryByslug
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: false
+                  message: 'No query results for model [Modules\Category\Entities\Category].'
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'No query results for model [Modules\Category\Entities\Category].'
+      tags:
+        - 'Product Category'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: et
+        required: true
+        schema:
+          type: string
